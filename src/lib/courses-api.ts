@@ -1,4 +1,4 @@
-import Redis from 'ioredis';
+import Redis, { RedisOptions } from 'ioredis';
 import { env } from '@/env.mjs';
 import {
     CourseData,
@@ -14,8 +14,24 @@ const globalForRedis = globalThis as unknown as {
     redis: Redis | undefined;
 };
 
-export const redis = globalForRedis.redis ?? new Redis(env.REDIS_URL);
+const redisOptions: RedisOptions = {
+    maxRetriesPerRequest: 0,
+    connectTimeout: 500, // fail-fast connection attempts
+    retryStrategy(times) {
+        if (process.env.CI || times > 3) {
+            return null; // Stop retrying in CI/tests or after 3 failures
+        }
+        return Math.min(times * 200, 2000); // Exponential backoff up to 2s
+    },
+};
+
+export const redis = globalForRedis.redis ?? new Redis(env.REDIS_URL, redisOptions);
 if (env.NODE_ENV !== 'production') globalForRedis.redis = redis;
+
+// Suppress unhandled error events to avoid crashing the server/process
+redis.on('error', (err) => {
+    console.warn('Redis client error:', err.message);
+});
 
 export const CoursesApiClient = {
     /**
