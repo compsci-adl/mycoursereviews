@@ -37,6 +37,8 @@ const SORT_OPTIONS = [
 const ALL_TERMS = ['Semester 1', 'Semester 2', 'Summer', 'Winter', 'No Longer Offered'];
 
 export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
+    const [coursesState, setCoursesState] = useState<CourseWithStats[]>(courses);
+    const [isPolling, setIsPolling] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSubjects, setSelectedSubjects] = useState<Set<string>>(new Set());
     const [selectedTerms, setSelectedTerms] = useState<Set<string>>(new Set());
@@ -45,39 +47,80 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
     const [mounted, setMounted] = useState(false);
     const sentinelRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        setCoursesState(courses);
+    }, [courses]);
+
     useEffect(() => { setMounted(true); }, []);
 
     useEffect(() => {
-        // Trigger background prefetch if we are showing fallback courses (cache miss)
+        let active = true;
+        let timerId: NodeJS.Timeout | null = null;
+
+        const checkStatus = async () => {
+            try {
+                const res = await fetch('/api/courses');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!active) return;
+
+                if (Array.isArray(data.courses)) {
+                    setCoursesState(data.courses);
+                }
+
+                if (!data.isComplete) {
+                    setIsPolling(true);
+                    timerId = setTimeout(checkStatus, 3000);
+                } else {
+                    setIsPolling(false);
+                }
+            } catch (err) {
+                console.error('Failed to poll courses status:', err);
+                if (active) {
+                    timerId = setTimeout(checkStatus, 5000);
+                }
+            }
+        };
+
         const isShowingFallbacks = courses.length === 5 && courses.every(c => ['COMP SCI 1102', 'COMP SCI 2000', 'COMP SCI 2207', 'COMP SCI 3006', 'COMP SCI 3310'].includes(c.code));
         
         if (isShowingFallbacks) {
-            console.log('Client: Fallback courses detected. Triggering background prefetch via API...');
-            fetch('/api/courses/prefetch')
+            checkStatus();
+        } else {
+            // Check status once to see if a background prefetch lock is active
+            fetch('/api/courses')
                 .then(res => res.json())
                 .then(data => {
-                    if (data.success && data.count > 0) {
-                        console.log(`Client: Prefetch complete. Loaded ${data.count} courses. Refreshing page data...`);
-                        // Refresh page so server renders the actual cached courses
-                        window.location.reload();
+                    if (data && !data.isComplete && active) {
+                        if (Array.isArray(data.courses)) {
+                            setCoursesState(data.courses);
+                        }
+                        setIsPolling(true);
+                        timerId = setTimeout(checkStatus, 3000);
                     }
                 })
-                .catch(err => console.error('Client prefetch error:', err));
+                .catch(() => {});
         }
+
+        return () => {
+            active = false;
+            if (timerId) clearTimeout(timerId);
+        };
     }, [courses]);
+
 
     // Derive sorted unique subject list — prefer subjectName (full name from API) over code abbreviation
     const allSubjects = useMemo(() => {
         const subjects = new Set(
-            courses.map((c) => (c.subjectName && c.subjectName.trim()) ? c.subjectName : c.subject)
+            coursesState.map((c) => (c.subjectName && c.subjectName.trim()) ? c.subjectName : c.subject)
         );
         return Array.from(subjects).sort();
-    }, [courses]);
+    }, [coursesState]);
 
     // Filter logic
     const filteredCourses = useMemo(() => {
         const query = searchQuery.toLowerCase().trim();
-        return courses.filter((course) => {
+        return coursesState.filter((course) => {
             if (query && !(
                 course.code.toLowerCase().includes(query) ||
                 course.name.toLowerCase().includes(query) ||
@@ -101,7 +144,7 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
 
             return true;
         });
-    }, [courses, searchQuery, selectedSubjects, selectedTerms]);
+    }, [coursesState, searchQuery, selectedSubjects, selectedTerms]);
 
     // Sort logic
     const sortedCourses = useMemo(() => {
@@ -357,6 +400,19 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                 </div>
             ) : (
                 <div className="h-24 w-full bg-background border-4 border-foreground rounded-none animate-pulse" />
+            )}
+
+            {/* Catalog Loading Alert */}
+            {isPolling && (
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-4 border-foreground bg-yellow/15 dark:bg-yellow/10 p-4 font-mono text-xs shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] border-dashed">
+                    <div className="flex items-center gap-2 font-black uppercase text-yellow-600 dark:text-yellow-400">
+                        <Spinner size="sm" color="warning" />
+                        <span>Updating catalog live ({coursesState.length} loaded)...</span>
+                    </div>
+                    <span className="text-foreground/85 font-bold italic text-2xs sm:text-xs">
+                        Courses are populating in the background. Search results may be incomplete.
+                    </span>
+                </div>
             )}
 
             {/* Courses Grid */}

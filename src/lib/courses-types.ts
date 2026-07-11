@@ -95,3 +95,80 @@ export function getSubjectNameFromCodePrefix(codePrefix: string): string | null 
     };
     return mapping[prefix] ?? null;
 }
+
+/**
+ * Maps course details from the Adelaide University Courses API to the app's CourseData schema.
+ */
+export function buildCourseFromDetail(
+    detail: any,
+    fallbackId: string,
+    matchedTitle: string,
+    matchedSubject: string,
+    matchedCode: string
+): CourseData {
+    // Build normalized code: if the catalog code already contains letters use it as-is
+    let normalizedCode: string;
+    if (/[A-Za-z]/.test(matchedCode) && /\d/.test(matchedCode)) {
+        normalizedCode = matchedCode;
+    } else {
+        normalizedCode = `${getSubjectAbbreviation(matchedSubject)} ${matchedCode}`.trim();
+    }
+
+    const description =
+        detail?.course_overview ||
+        detail?.description ||
+        detail?.outline ||
+        `Official Adelaide University outline for ${normalizedCode} (${matchedTitle}).`;
+
+    const rawTerms = Array.isArray(detail?.terms) ? detail.terms : [];
+    const termNames = rawTerms.length > 0
+        ? rawTerms.map((t: string) => t.replace(' School', ''))
+        : ['Semester 1', 'Semester 2'];
+
+    const officialLink =
+        detail?.course_outline_url ||
+        detail?.course_url ||
+        detail?.officialLink ||
+        detail?.link ||
+        `https://www.adelaide.edu.au/course-outlines/${fallbackId}`;
+
+    // Map assessments (title, weighting, hurdle)
+    const rawAssessments = Array.isArray(detail?.assessments) ? detail.assessments : [];
+    const assessments = rawAssessments.map((a: any) => ({
+        title: a.title ?? '',
+        weighting: a.weighting ?? '',
+        hurdle: a.hurdle ?? '',
+    }));
+
+    // Map learning outcomes (description, outcome_index -> outcomeIndex)
+    const rawOutcomes = Array.isArray(detail?.learning_outcomes) ? detail.learning_outcomes : [];
+    const learningOutcomes = rawOutcomes.map((o: any) => ({
+        description: o.description ?? '',
+        outcomeIndex: o.outcome_index ?? 0,
+    }));
+
+    // Extract requirements sub-fields
+    const reqs = detail?.requirements;
+
+    return {
+        code: normalizedCode,
+        name: matchedTitle,
+        description,
+        terms: termNames,
+        officialLink,
+        coordinator: detail?.course_coordinator ?? null,
+        campus: detail?.campus ?? null,
+        units: detail?.units ?? null,
+        levelOfStudy: detail?.level_of_study ?? null,
+        prerequisites: reqs?.prerequisites ?? null,
+        corequisites: reqs?.corequisites ?? null,
+        antirequisites: reqs?.antirequisites ?? null,
+        assessments: assessments.length > 0 ? assessments : undefined,
+        learningOutcomes: learningOutcomes.length > 0 ? learningOutcomes : undefined,
+        textbooks: detail?.textbooks ?? null,
+        subjectName: detail?.name?.subject || matchedSubject || null,
+        apiId: fallbackId,
+        universityWideElective: detail?.university_wide_elective ?? null,
+    };
+}
+

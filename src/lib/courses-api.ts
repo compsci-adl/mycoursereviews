@@ -5,6 +5,7 @@ import {
     FALLBACK_COURSES,
     getSubjectAbbreviation,
     getSubjectNameFromCodePrefix,
+    buildCourseFromDetail,
 } from './courses-types';
 
 export type { CourseData };
@@ -55,106 +56,133 @@ export const CoursesApiClient = {
         console.log('Background Courses API Fetch: query starting...');
 
         try {
-            // Query subjects endpoint first to match and normalize dynamic outlines
-            try {
-                const subjectsUrl = `${env.COURSES_API_URL}/subjects?year=${year}&term=sem1`;
-                const subjectsResponse = await fetch(subjectsUrl, { headers, next: { revalidate: 86400 } });
-                if (subjectsResponse.ok) {
-                    const rawSubjects = await subjectsResponse.json() as Array<string | { code: string; name: string }>;
-                    const fetchedList = rawSubjects.map(s => {
-                        if (typeof s === 'string') return s;
-                        return s.name || s.code || '';
-                    }).filter(Boolean);
+            // Dynamically query subject list for each term first to skip invalid or empty term queries
+            const tasks: Array<{ subject: string; termQuery: typeof termQueries[0] }> = [];
+            
+            await Promise.all(
+                termQueries.map(async (termQuery) => {
+                    try {
+                        const subjectsUrl = `${env.COURSES_API_URL}/subjects?year=${year}&term=${termQuery.alias}`;
+                        const subjectsResponse = await fetch(subjectsUrl, { headers, next: { revalidate: 86400 } });
+                        if (subjectsResponse.ok) {
+                            const rawSubjects = await subjectsResponse.json() as Array<string | { code: string; name: string }>;
+                            const fetchedList = rawSubjects.map(s => {
+                                if (typeof s === 'string') return s;
+                                return s.name || s.code || '';
+                            }).filter(Boolean);
 
-                    if (fetchedList.length > 0) {
-                        subjects = fetchedList;
+                            for (const subject of fetchedList) {
+                                tasks.push({ subject, termQuery });
+                            }
+                            console.log(`Background Courses API Fetch: resolved ${fetchedList.length} subjects for term ${termQuery.alias}`);
+                        }
+                    } catch (subjectsError) {
+                        console.warn(`Background Courses API Fetch: subjects fetch failed for term ${termQuery.alias}:`, subjectsError);
+                        // Fallback to default list if sem1/sem2 fails
+                        if (termQuery.alias === 'sem1' || termQuery.alias === 'sem2') {
+                            for (const subject of subjects) {
+                                tasks.push({ subject, termQuery });
+                            }
+                        }
+                    }
+                })
+            );
+
+            console.log(`Background Courses API Fetch: resolved ${tasks.length} total tasks. Launching concurrent worker pool...`);
+
+            // Execute fetches using a concurrent worker queue (limit 35 active requests) to maximize throughput
+            const limit = 35;
+            let taskIndex = 0;
+
+            const executeNext = async (): Promise<void> => {
+                if (taskIndex >= tasks.length) return;
+                const task = tasks[taskIndex++];
+
+                try {
+                    const searchParams = new URLSearchParams({
+                        year: String(year),
+                        term: task.termQuery.alias,
+                        subject: task.subject,
+                    });
+
+                    const url = `${env.COURSES_API_URL}/courses?${searchParams.toString()}`;
+                    const response = await fetch(url, { headers, next: { revalidate: 86400 } });
+
+                    if (response.ok) {
+                        const resJson = await response.json();
+                        const rawCourses = resJson?.courses || [];
+
+                        for (const raw of rawCourses) {
+                            if (!raw.name) continue;
+                            const sub = raw.name.subject || task.subject;
+                            const catalogCode = raw.name.code || '';
+                            const title = raw.name.title || '';
+
+                            // Map full subject names dynamically to standard Adelaide Uni abbreviations
+                            const mappedSub = getSubjectAbbreviation(sub);
+
+                            let code = '';
+                            if (/[A-Za-z]/.test(catalogCode)) {
+                                code = catalogCode.replace(/_/g, ' ').trim();
+                            } else {
+                                code = `${mappedSub} ${catalogCode}`.trim();
+                            }
+
+                            if (!code) continue;
+                            const normalizedCode = code.toUpperCase();
+                            const displayTerm = task.termQuery.displayName;
+
+                            if (coursesMap.has(normalizedCode)) {
+                                const existing = coursesMap.get(normalizedCode)!;
+                                if (!existing.terms.includes(displayTerm)) {
+                                    existing.terms.push(displayTerm);
+                                }
+                            } else {
+                                coursesMap.set(normalizedCode, {
+                                    code: code,
+                                    name: title || code,
+                                    description: `Official Adelaide University outline for ${code} (${title || 'Course Outline'}).`,
+                                    terms: [displayTerm],
+                                    officialLink: `https://www.adelaide.edu.au/course-outlines/${raw.id || encodeURIComponent(normalizedCode)}`,
+                                    subjectName: sub || null,
+                                    apiId: raw.id || null,
+                                });
+                            }
+                        }
+                    }
+                } catch (innerError) {
+                    console.warn(`Background Courses API Fetch: failed for subject: ${task.subject}, term: ${task.termQuery.alias}:`, innerError);
+                }
+
+                // Incrementally update Redis cache in batches of 15 completed tasks to optimize writes
+                if (taskIndex % 15 === 0 || taskIndex === tasks.length) {
+                    if (coursesMap.size > 0) {
+                        try {
+                            const currentCached = await redis.get(cacheKey);
+                            const currentList = currentCached ? (JSON.parse(currentCached) as CourseData[]) : [];
+                            const mergedMap = new Map<string, CourseData>();
+                            for (const c of currentList) {
+                                mergedMap.set(c.code.toUpperCase(), c);
+                            }
+                            for (const [code, c] of coursesMap.entries()) {
+                                mergedMap.set(code, c);
+                            }
+                            const mergedData = Array.from(mergedMap.values());
+                            await redis.set(cacheKey, JSON.stringify(mergedData), 'EX', 172800);
+                        } catch (cacheErr) {
+                            console.error('Background prefetch: incremental update failed:', cacheErr);
+                        }
                     }
                 }
-            } catch (subjectsError) {
-                console.warn('Background Courses API Fetch: subjects outline failed, using default list:', subjectsError);
-            }
 
-            // Create flat list of query tasks to fetch
-            const tasks: Array<{ subject: string; termQuery: typeof termQueries[0] }> = [];
-            for (const subject of subjects) {
-                for (const termQuery of termQueries) {
-                    tasks.push({ subject, termQuery });
-                }
-            }
+                // Keep working
+                await executeNext();
+            };
 
-            // Execute fetches in parallel batches of 25 to protect backend & prevent client bottlenecks
-            const batchSize = 25;
-            for (let i = 0; i < tasks.length; i += batchSize) {
-                const chunk = tasks.slice(i, i + batchSize);
-                await Promise.all(
-                    chunk.map(async (task) => {
-                        try {
-                            const searchParams = new URLSearchParams({
-                                year: String(year),
-                                term: task.termQuery.alias,
-                                subject: task.subject,
-                            });
+            const workers = Array.from({ length: limit }, () => executeNext());
+            await Promise.all(workers);
 
-                            const url = `${env.COURSES_API_URL}/courses?${searchParams.toString()}`;
-                            const response = await fetch(url, { headers, next: { revalidate: 86400 } });
-
-                            if (response.ok) {
-                                const resJson = await response.json();
-                                const rawCourses = resJson?.courses || [];
-
-                                for (const raw of rawCourses) {
-                                    if (!raw.name) continue;
-                                    const sub = raw.name.subject || task.subject;
-                                    const catalogCode = raw.name.code || '';
-                                    const title = raw.name.title || '';
-
-                                    // Map full subject names dynamically to standard Adelaide Uni abbreviations
-                                    const mappedSub = getSubjectAbbreviation(sub);
-
-                                    let code = '';
-                                    if (/[A-Za-z]/.test(catalogCode)) {
-                                        code = catalogCode.replace(/_/g, ' ').trim();
-                                    } else {
-                                        code = `${mappedSub} ${catalogCode}`.trim();
-                                    }
-
-                                    if (!code) continue;
-                                    const normalizedCode = code.toUpperCase();
-                                    const displayTerm = task.termQuery.displayName;
-
-                                    if (coursesMap.has(normalizedCode)) {
-                                        const existing = coursesMap.get(normalizedCode)!;
-                                        if (!existing.terms.includes(displayTerm)) {
-                                            existing.terms.push(displayTerm);
-                                        }
-                                    } else {
-                                        coursesMap.set(normalizedCode, {
-                                            code: code,
-                                            name: title || code,
-                                            description: `Official Adelaide University outline for ${code} (${title || 'Course Outline'}).`,
-                                            terms: [displayTerm],
-                                            officialLink: `https://www.adelaide.edu.au/course-outlines/${raw.id || encodeURIComponent(normalizedCode)}`,
-                                            subjectName: sub || null,
-                                            apiId: raw.id || null,
-                                        });
-                                    }
-                                }
-                            }
-                        } catch (innerError) {
-                            console.warn(`Background Courses API Fetch: failed for subject: ${task.subject}, term: ${task.termQuery.alias}:`, innerError);
-                        }
-                    })
-                );
-            }
-
-            if (coursesMap.size > 0) {
-                const data = Array.from(coursesMap.values());
-                // Write into Redis (24-hour TTL)
-                await redis.set(cacheKey, JSON.stringify(data), 'EX', 86400);
-                console.log(`Background Courses API Fetch: completed. Cached ${data.length} courses.`);
-            } else {
-                console.warn('Background Courses API Fetch: courses endpoint returned 0 outlines.');
-            }
+            console.log(`Background Courses API Fetch: completed. Total courses: ${coursesMap.size}`);
         } catch (error) {
             console.error('Background Courses API Fetch: top-level process failed:', error);
         }
@@ -258,73 +286,7 @@ export const CoursesApiClient = {
             console.warn('Failed to dynamically resolve course details from allCourses list:', err);
         }
 
-        // Common mapping function for course detail
-        const buildCourseFromDetail = (detail: any, fallbackId: string, matchedTitle: string, matchedSubject: string, matchedCode: string): CourseData => {
-            // Build normalized code: if the catalog code already contains letters use it as-is
-            let normalizedCode: string;
-            if (/[A-Za-z]/.test(matchedCode) && /\d/.test(matchedCode)) {
-                normalizedCode = matchedCode;
-            } else {
-                normalizedCode = `${getSubjectAbbreviation(matchedSubject)} ${matchedCode}`.trim();
-            }
 
-            const description =
-                detail?.course_overview ||
-                detail?.description ||
-                detail?.outline ||
-                `Official Adelaide University outline for ${normalizedCode} (${matchedTitle}).`;
-
-            const rawTerms = Array.isArray(detail?.terms) ? detail.terms : [];
-            const termNames = rawTerms.length > 0
-                ? rawTerms.map((t: string) => t.replace(' School', ''))
-                : ['Semester 1', 'Semester 2'];
-
-            const officialLink =
-                detail?.course_outline_url ||
-                detail?.course_url ||
-                detail?.officialLink ||
-                detail?.link ||
-                `https://www.adelaide.edu.au/course-outlines/${fallbackId}`;
-
-            // Map assessments (title, weighting, hurdle)
-            const rawAssessments = Array.isArray(detail?.assessments) ? detail.assessments : [];
-            const assessments = rawAssessments.map((a: any) => ({
-                title: a.title ?? '',
-                weighting: a.weighting ?? '',
-                hurdle: a.hurdle ?? '',
-            }));
-
-            // Map learning outcomes (description, outcome_index -> outcomeIndex)
-            const rawOutcomes = Array.isArray(detail?.learning_outcomes) ? detail.learning_outcomes : [];
-            const learningOutcomes = rawOutcomes.map((o: any) => ({
-                description: o.description ?? '',
-                outcomeIndex: o.outcome_index ?? 0,
-            }));
-
-            // Extract requirements sub-fields
-            const reqs = detail?.requirements;
-
-            return {
-                code: normalizedCode,
-                name: matchedTitle,
-                description,
-                terms: termNames,
-                officialLink,
-                coordinator: detail?.course_coordinator ?? null,
-                campus: detail?.campus ?? null,
-                units: detail?.units ?? null,
-                levelOfStudy: detail?.level_of_study ?? null,
-                prerequisites: reqs?.prerequisites ?? null,
-                corequisites: reqs?.corequisites ?? null,
-                antirequisites: reqs?.antirequisites ?? null,
-                assessments: assessments.length > 0 ? assessments : undefined,
-                learningOutcomes: learningOutcomes.length > 0 ? learningOutcomes : undefined,
-                textbooks: detail?.textbooks ?? null,
-                subjectName: detail?.name?.subject || matchedSubject || null,
-                apiId: fallbackId,
-                universityWideElective: detail?.university_wide_elective ?? null,
-            };
-        };
 
         // If apiId is dynamically resolved, perform high-performance direct detail lookup!
         if (apiId) {
