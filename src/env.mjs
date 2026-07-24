@@ -10,8 +10,7 @@ export const env = createEnv({
         KEYCLOAK_CLIENT_SECRET: z.string().min(1),
         KEYCLOAK_ISSUER: z.url(),
         DATABASE_URL: z.string().min(1),
-        REDIS_URL: z.url().default('redis://localhost:6379'),
-        COURSES_API_URL: z.url().default('https://courses-api.csclub.org.au'),
+        COURSES_DB_PATH: z.string().optional(),
     },
     client: {
         NEXT_PUBLIC_UMAMI_WEBSITE_ID: z.string().min(1).optional(),

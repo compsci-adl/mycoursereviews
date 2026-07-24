@@ -8,6 +8,9 @@ services:
       - PUID=1000
       - PGID=1000
       - PORT=3200
+      - COURSES_DB_PATH=/data/courses-api/local.sqlite3
+    volumes:
+      - ./courses-api-data:/data/courses-api:ro
     ports:
       - 3200:3200
     networks:

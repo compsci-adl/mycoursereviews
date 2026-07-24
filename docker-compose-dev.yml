@@ -31,14 +31,6 @@ services:
     networks:
       - csclub
 
-  mycoursereviews-redis:
-    image: redis:7-alpine
-    container_name: mycoursereviews-redis
-    ports:
-      - 6379:6379
-    networks:
-      - csclub
-
   mycoursereviews:
     container_name: mycoursereviews
     build:
@@ -51,16 +43,14 @@ services:
       - PUID=1000
       - PGID=1000
       - PORT=3200
-      - DATABASE_URL=postgresql://postgres:postgres@mycoursereviews-db-dev:5432/mycoursereviews
-      - REDIS_URL=redis://mycoursereviews-redis:6379
     ports:
       - 3200:3200
     volumes:
       - .:/app
       - /app/node_modules
+      - ../courses-api/src:/data/courses-api:ro
     depends_on:
       - mycoursereviews-db
-      - mycoursereviews-redis
     command: sh -c "CI=true pnpm install && pnpm run db:push && pnpm run dev"
     networks:
       - csclub
