@@ -207,40 +207,36 @@ export const Header = () => {
 
                 {/* NextAuth Login/Logout Buttons (Desktop-only) */}
                 <NavbarItem className="hidden sm:block">
-                    {mounted && status !== 'loading' ? (
-                        session ? (
-                            <Tooltip 
-                                content={`Logged in as ${session.user.name}`} 
-                                size="sm"
-                                radius="none"
-                                classNames={{
-                                    content: "rounded-none border-2 border-foreground bg-background text-foreground font-mono text-2xs font-extrabold uppercase shadow-[2px_2px_0px_0px_#000] px-2 py-1"
-                                }}
-                            >
-                                <Button
-                                    size="sm"
-                                    color="primary"
-                                    variant="flat"
-                                    onPress={() => signOut({ callbackUrl: '/' })}
-                                    startContent={<FaSignOutAlt />}
-                                    className="font-mono text-xs uppercase font-black bg-red text-white rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-105 active:scale-95 transition-all duration-200 h-9"
-                                >
-                                    Logout
-                                </Button>
-                            </Tooltip>
-                        ) : (
+                    {session ? (
+                        <Tooltip 
+                            content={`Logged in as ${session.user?.name || 'User'}`} 
+                            size="sm"
+                            radius="none"
+                            classNames={{
+                                content: "rounded-none border-2 border-foreground bg-background text-foreground font-mono text-2xs font-extrabold uppercase shadow-[2px_2px_0px_0px_#000] px-2 py-1"
+                            }}
+                        >
                             <Button
                                 size="sm"
                                 color="primary"
-                                onPress={() => signIn('keycloak')}
-                                startContent={<FaSignInAlt />}
-                                className="font-mono text-xs uppercase font-black bg-yellow text-black rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-105 active:scale-95 transition-all duration-200 h-9"
+                                variant="flat"
+                                onPress={() => signOut({ callbackUrl: '/' })}
+                                startContent={<FaSignOutAlt />}
+                                className="font-mono text-xs uppercase font-black bg-red text-white rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-105 active:scale-95 transition-all duration-200 h-9"
                             >
-                                Login
+                                Logout
                             </Button>
-                        )
+                        </Tooltip>
                     ) : (
-                        <div className="h-9 w-20 bg-foreground/10 border-2 border-foreground/30 animate-pulse rounded-none" />
+                        <Button
+                            size="sm"
+                            color="primary"
+                            onPress={() => signIn('keycloak')}
+                            startContent={<FaSignInAlt />}
+                            className="font-mono text-xs uppercase font-black bg-yellow text-black rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-105 active:scale-95 transition-all duration-200 h-9"
+                        >
+                            Login
+                        </Button>
                     )}
                 </NavbarItem>
 
@@ -351,32 +347,28 @@ export const Header = () => {
 
                     {/* Auth Button (Mobile) */}
                     <NavbarMenuItem>
-                        {mounted && status !== 'loading' ? (
-                            session ? (
-                                <Button
-                                    onPress={() => {
-                                        setIsMenuOpen(false);
-                                        signOut({ callbackUrl: '/' });
-                                    }}
-                                    startContent={<FaSignOutAlt />}
-                                    className="w-full font-mono text-xs uppercase font-black bg-red text-white rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-102 transition-all duration-200 h-10"
-                                >
-                                    Logout
-                                </Button>
-                            ) : (
-                                <Button
-                                    onPress={() => {
-                                        setIsMenuOpen(false);
-                                        signIn('keycloak');
-                                    }}
-                                    startContent={<FaSignInAlt />}
-                                    className="w-full font-mono text-xs uppercase font-black bg-yellow text-black rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-102 transition-all duration-200 h-10"
-                                >
-                                    Login
-                                </Button>
-                            )
+                        {session ? (
+                            <Button
+                                onPress={() => {
+                                    setIsMenuOpen(false);
+                                    signOut({ callbackUrl: '/' });
+                                }}
+                                startContent={<FaSignOutAlt />}
+                                className="w-full font-mono text-xs uppercase font-black bg-red text-white rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-102 transition-all duration-200 h-10"
+                            >
+                                Logout
+                            </Button>
                         ) : (
-                            <div className="h-10 w-full bg-foreground/10 border-2 border-foreground/30 animate-pulse rounded-none" />
+                            <Button
+                                onPress={() => {
+                                    setIsMenuOpen(false);
+                                    signIn('keycloak');
+                                }}
+                                startContent={<FaSignInAlt />}
+                                className="w-full font-mono text-xs uppercase font-black bg-yellow text-black rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-102 transition-all duration-200 h-10"
+                            >
+                                Login
+                            </Button>
                         )}
                     </NavbarMenuItem>
                 </div>

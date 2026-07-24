@@ -5,7 +5,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaFilter, FaSearch, FaTimes } from 'react-icons/fa';
 import { CourseCard } from './CourseCard';
 
-import { CourseData } from '@/lib/courses-api';
+import { CourseData } from '@/lib/courses-db';
+import { Chip } from '@heroui/react';
 
 const PAGE_SIZE = 24;
 
@@ -70,14 +71,14 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
 
                 if (!data.isComplete) {
                     setIsPolling(true);
-                    timerId = setTimeout(checkStatus, 3000);
+                    timerId = setTimeout(checkStatus, 2000);
                 } else {
                     setIsPolling(false);
                 }
             } catch (err) {
                 console.error('Failed to poll courses status:', err);
                 if (active) {
-                    timerId = setTimeout(checkStatus, 5000);
+                    timerId = setTimeout(checkStatus, 4000);
                 }
             }
         };
@@ -86,20 +87,20 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
         
         if (isShowingFallbacks) {
             checkStatus();
-        } else {
-            // Check status once to see if a background prefetch lock is active
-            fetch('/api/courses')
-                .then(res => res.json())
-                .then(data => {
-                    if (data && !data.isComplete && active) {
-                        if (Array.isArray(data.courses)) {
+        } else if (coursesState.length < 100) {
+            // Asynchronously load full catalog
+            const idleTimer = setTimeout(() => {
+                fetch('/api/courses')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (active && data && Array.isArray(data.courses) && data.courses.length > 0) {
                             setCoursesState(data.courses);
                         }
-                        setIsPolling(true);
-                        timerId = setTimeout(checkStatus, 3000);
-                    }
-                })
-                .catch(() => {});
+                    })
+                    .catch(err => console.error('Failed to background load full course catalog:', err));
+            }, 50);
+
+            return () => clearTimeout(idleTimer);
         }
 
         return () => {
@@ -174,10 +175,14 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
     // Reset visible count when filters/sort change
     useEffect(() => { setVisibleCount(PAGE_SIZE); }, [searchQuery, selectedSubjects, selectedTerms, sortBy]);
 
-    // Infinite scroll — observe sentinel div at the bottom
+    const visibleCourses = sortedCourses.slice(0, visibleCount);
+    const hasMore = visibleCount < sortedCourses.length;
+    const hasActiveFilters = selectedSubjects.size > 0 || selectedTerms.size > 0 || searchQuery.trim().length > 0;
+
+    // Infinite scroll — observe persistent sentinel div at the bottom with scroll fallback
     useEffect(() => {
         const el = sentinelRef.current;
-        if (!el) return;
+        if (!el || !hasMore) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -185,16 +190,26 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                     setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, sortedCourses.length));
                 }
             },
-            { rootMargin: '200px' }
+            { rootMargin: '400px' }
         );
 
         observer.observe(el);
-        return () => observer.disconnect();
-    }, [sortedCourses.length]);
 
-    const visibleCourses = sortedCourses.slice(0, visibleCount);
-    const hasMore = visibleCount < sortedCourses.length;
-    const hasActiveFilters = selectedSubjects.size > 0 || selectedTerms.size > 0 || searchQuery.trim().length > 0;
+        const handleScroll = () => {
+            if (!sentinelRef.current) return;
+            const rect = sentinelRef.current.getBoundingClientRect();
+            if (rect.top <= window.innerHeight + 400) {
+                setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, sortedCourses.length));
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [hasMore, visibleCount, sortedCourses.length]);
 
     const clearFilters = () => {
         setSearchQuery('');
@@ -218,27 +233,27 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
             </div>
 
             {/* Filter and Search Controls */}
-            {mounted ? (
-                <div className="flex flex-col gap-4 bg-background border-4 border-foreground p-5 rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff]">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {/* Search */}
-                        <div>
-                            <Input
-                                isClearable
-                                radius="none"
-                                placeholder="Search courses (code/title)"
-                                startContent={<FaSearch className="text-foreground" />}
-                                value={searchQuery}
-                                onValueChange={setSearchQuery}
-                                className="w-full font-mono h-10"
-                                classNames={{
-                                    inputWrapper: "border-2 border-foreground bg-background rounded-none shadow-none h-10 group-data-[focus=true]:border-foreground",
-                                    input: "placeholder:text-grey dark:placeholder:text-grey text-foreground",
-                                }}
-                            />
-                        </div>
+            <div className="flex flex-col gap-4 bg-background border-4 border-foreground p-5 rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* Search */}
+                    <div>
+                        <Input
+                            isClearable
+                            radius="none"
+                            placeholder="Search courses (code/title)"
+                            startContent={<FaSearch className="text-foreground" />}
+                            value={searchQuery}
+                            onValueChange={setSearchQuery}
+                            className="w-full font-mono h-10"
+                            classNames={{
+                                inputWrapper: "border-2 border-foreground bg-background rounded-none shadow-none h-10 group-data-[focus=true]:border-foreground",
+                                input: "placeholder:text-grey dark:placeholder:text-grey text-foreground",
+                            }}
+                        />
+                    </div>
 
-                        {/* Subject Autocomplete Search & Select */}
+                    {/* Subject Autocomplete Search & Select */}
+                    {mounted ? (
                         <Autocomplete
                             labelPlacement="outside"
                             radius="none"
@@ -280,8 +295,14 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                                 </AutocompleteItem>
                             ))}
                         </Autocomplete>
- 
-                        {/* Term Multi-Select */}
+                    ) : (
+                        <div className="border-2 border-foreground bg-background rounded-none h-10 px-3 flex items-center text-grey dark:text-grey font-mono text-xs select-none pointer-events-none">
+                            Filter Subject Area
+                        </div>
+                    )}
+
+                    {/* Term Multi-Select */}
+                    {mounted ? (
                         <Select
                             labelPlacement="outside"
                             radius="none"
@@ -313,8 +334,14 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                                 </SelectItem>
                             ))}
                         </Select>
- 
-                        {/* Sort By Select */}
+                    ) : (
+                        <div className="border-2 border-foreground bg-background rounded-none h-10 px-3 flex items-center text-grey dark:text-grey font-mono text-xs select-none pointer-events-none">
+                            Filter Term
+                        </div>
+                    )}
+
+                    {/* Sort By Select */}
+                    {mounted ? (
                         <Select
                             radius="none"
                             placeholder="Sort By"
@@ -344,63 +371,71 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                                 </SelectItem>
                             ))}
                         </Select>
-                    </div>
-
-                    {/* Active filter chips */}
-                    {hasActiveFilters && (
-                        <div className="flex flex-wrap gap-2 items-center pt-2 border-t-2 border-dashed border-foreground/30">
-                            {Array.from(selectedSubjects).map((s) => (
-                                <div
-                                    key={s}
-                                    className="border-2 border-foreground font-mono bg-yellow text-black text-3xs font-extrabold px-2.5 h-8 flex items-center gap-2 select-none hover:scale-105 hover:rotate-[1deg] transition-all"
-                                >
-                                    <span>{s}</span>
-                                    <button
-                                        onClick={() => {
-                                            const next = new Set(selectedSubjects);
-                                            next.delete(s);
-                                            setSelectedSubjects(next);
-                                        }}
-                                        className="cursor-pointer font-black text-[9px] hover:bg-foreground hover:text-background w-3.5 h-3.5 flex items-center justify-center border border-foreground rounded-none transition-colors"
-                                    >
-                                        ✕
-                                    </button>
-                                </div>
-                            ))}
-                            {Array.from(selectedTerms).map((t) => (
-                                <div
-                                    key={t}
-                                    className="border-2 border-foreground font-mono bg-red text-white text-3xs font-extrabold px-2.5 h-8 flex items-center gap-2 select-none hover:scale-105 hover:rotate-[-1deg] transition-all"
-                                >
-                                    <span>{t}</span>
-                                    <button
-                                        onClick={() => {
-                                            const next = new Set(selectedTerms);
-                                            next.delete(t);
-                                            setSelectedTerms(next);
-                                        }}
-                                        className="cursor-pointer font-black text-[9px] hover:bg-white hover:text-red w-3.5 h-3.5 flex items-center justify-center border border-white rounded-none transition-colors"
-                                    >
-                                        ✕
-                                    </button>
-                                </div>
-                            ))}
-                            <Button
-                                size="sm"
-                                variant="flat"
-                                color="danger"
-                                startContent={<FaTimes className="text-[10px]" />}
-                                onPress={clearFilters}
-                                className="font-mono text-2xs uppercase font-extrabold h-8 border-2 border-foreground rounded-none bg-background shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff]"
-                            >
-                                Clear all
-                            </Button>
+                    ) : (
+                        <div className="border-2 border-foreground bg-background rounded-none h-10 px-3 flex items-center text-grey dark:text-grey font-mono text-xs select-none pointer-events-none">
+                            Sort By
                         </div>
                     )}
                 </div>
-            ) : (
-                <div className="h-24 w-full bg-background border-4 border-foreground rounded-none animate-pulse" />
-            )}
+
+                {/* Selected Active Filters Chips */}
+                {hasActiveFilters && (
+                    <div className="flex flex-wrap items-center gap-2 pt-2 border-t-2 border-dashed border-foreground/20">
+                        <span className="font-mono text-2xs uppercase font-extrabold text-foreground/70">
+                            Active Filters:
+                        </span>
+                        {Array.from(selectedSubjects).map((sub) => (
+                            <Chip
+                                key={sub}
+                                size="sm"
+                                radius="none"
+                                onClose={() => {
+                                    const next = new Set(selectedSubjects);
+                                    next.delete(sub);
+                                    setSelectedSubjects(next);
+                                }}
+                                className="bg-yellow text-black border-2 border-foreground font-mono text-xs font-black shadow-[2px_2px_0px_0px_#000]"
+                            >
+                                {sub}
+                            </Chip>
+                        ))}
+                        {Array.from(selectedTerms).map((term) => (
+                            <Chip
+                                key={term}
+                                size="sm"
+                                radius="none"
+                                onClose={() => {
+                                    const next = new Set(selectedTerms);
+                                    next.delete(term);
+                                    setSelectedTerms(next);
+                                }}
+                                className="bg-blue text-white border-2 border-foreground font-mono text-xs font-black shadow-[2px_2px_0px_0px_#000]"
+                            >
+                                {term}
+                            </Chip>
+                        ))}
+                        {searchQuery.trim() && (
+                            <Chip
+                                size="sm"
+                                radius="none"
+                                onClose={() => setSearchQuery('')}
+                                className="bg-foreground text-background border-2 border-foreground font-mono text-xs font-black shadow-[2px_2px_0px_0px_#000]"
+                            >
+                                &quot;{searchQuery}&quot;
+                            </Chip>
+                        )}
+                        <Button
+                            size="sm"
+                            variant="light"
+                            onPress={clearFilters}
+                            startContent={<FaTimes className="text-xs" />}
+                            className="font-mono text-xs font-extrabold text-red hover:underline h-7 min-w-0 p-1 ml-auto cursor-pointer"
+                        >
+                            Clear All
+                        </Button>
+                    </div>
+                )}
+            </div>
 
             {/* Catalog Loading Alert */}
             {isPolling && (
@@ -425,18 +460,16 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
             ) : (
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {visibleCourses.map((course, idx) => (
+                        {visibleCourses.map((course) => (
                             <CourseCard
                                 key={course.code}
                                 course={course}
-                                idx={idx}
-                                pageSize={PAGE_SIZE}
                             />
                         ))}
                     </div>
 
                     {/* Infinite scroll sentinel */}
-                    <div ref={sentinelRef} className="flex justify-center py-8">
+                    <div ref={sentinelRef} className="flex justify-center py-8 w-full min-h-[60px]">
                         {hasMore && (
                             <div className="flex items-center gap-2 text-foreground font-mono text-sm font-black uppercase bg-yellow border-3 border-foreground px-4 py-2 shadow-[4px_4px_0px_0px_#000] animate-pulse">
                                 <Spinner size="sm" color="current" />

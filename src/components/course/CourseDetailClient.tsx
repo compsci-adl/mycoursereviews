@@ -8,7 +8,7 @@ import { FaGraduationCap, FaBuilding, FaChalkboardTeacher, FaInfoCircle, FaCheck
 import { addComment, toggleLike, deleteReview, deleteComment, updateComment, updateReview } from '@/app/actions/reviews';
 import { voteOnCourseUpdate } from '@/app/actions/courseUpdates';
 import { UpdateVoteData } from '@/lib/course-update-voting';
-import { CourseData } from '@/lib/courses-api';
+import { CourseData } from '@/lib/courses-db';
 import { ReviewModal } from './ReviewModal';
 import { EditReviewModal, ReviewToEdit } from '../dashboard/EditReviewModal';
 import { CourseScorecard } from './CourseScorecard';

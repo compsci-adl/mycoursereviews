@@ -1,7 +1,7 @@
 import { describe, it, mock } from 'node:test';
 import assert from 'node:assert';
 import { render, screen } from '@testing-library/react';
-import { CourseData } from '@/lib/courses-api';
+import { CourseData } from '@/lib/courses-db';
 
 // Mock @heroui/react before importing the component using modern Node 26 exports API
 mock.module('@heroui/react', {

@@ -5,7 +5,7 @@ import { FaLock, FaUserShield } from 'react-icons/fa';
 import { auth } from '@/auth';
 import { db } from '@/db';
 import { comments, reviews } from '@/db/schema';
-import { CoursesApiClient } from '@/lib/courses-api';
+import { getAllCourses } from '@/lib/courses-db';
 import { MyReviewsClient } from '@/components/dashboard/MyReviewsClient';
 
 export const dynamic = 'force-dynamic';
@@ -92,7 +92,7 @@ export default async function MyReviewsPage() {
     }
 
     // 4. Fetch Course List from Cache/Client to resolve code -> name mappings
-    const apiCourses = await CoursesApiClient.getAllCourses();
+    const apiCourses = getAllCourses();
     const courseMap: Record<string, string> = {};
     apiCourses.forEach((c) => {
         courseMap[c.code.toLowerCase()] = c.name;

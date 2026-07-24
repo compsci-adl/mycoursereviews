@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FaBookOpen, FaClipboardList } from 'react-icons/fa';
-import { CourseData } from '@/lib/courses-api';
+import { CourseData } from '@/lib/courses-db';
 
 interface CourseOverviewSectionProps {
     course: CourseData;

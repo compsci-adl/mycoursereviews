@@ -2,7 +2,7 @@ import { sql } from 'drizzle-orm';
 
 import { db } from '@/db';
 import { reviews } from '@/db/schema';
-import { CoursesApiClient } from '@/lib/courses-api';
+import { getCoursesBatch } from '@/lib/courses-db';
 import { BrowseCoursesClient } from '@/components/browse/BrowseCoursesClient';
 
 // Ensure this page loads dynamic updates instantly
@@ -17,11 +17,11 @@ function extractSubject(code: string): string {
 }
 
 export default async function CoursesPage() {
-    // 1. Fetch courses outline list from Redis-backed Courses API client
-    const apiCourses = await CoursesApiClient.getAllCourses();
+    // 1. Fetch initial 36 courses fast batch from db
+    const apiCourses = getCoursesBatch(36);
 
     // 2. Fetch course aggregate review stats from PostgreSQL
-    let dbStats: {
+    const dbStatsMap = new Map<string, {
         courseCode: string;
         avgRating: number;
         avgDifficulty: number;
@@ -29,7 +29,7 @@ export default async function CoursesPage() {
         avgEnjoyment: number;
         reviewCount: number;
         mostRecentReview: string | null;
-    }[] = [];
+    }>();
 
     try {
         const stats = await db
@@ -45,57 +45,36 @@ export default async function CoursesPage() {
             .from(reviews)
             .groupBy(reviews.courseCode);
 
-        dbStats = stats.map((row) => ({
-            courseCode: row.courseCode,
-            avgRating: Number(row.avgRating) || 0,
-            avgDifficulty: Number(row.avgDifficulty) || 0,
-            avgUsefulness: Number(row.avgUsefulness) || 0,
-            avgEnjoyment: Number(row.avgEnjoyment) || 0,
-            reviewCount: Number(row.reviewCount) || 0,
-            mostRecentReview: row.mostRecentReview ?? null,
-        }));
+        for (const row of stats) {
+            dbStatsMap.set(row.courseCode.toLowerCase(), {
+                courseCode: row.courseCode,
+                avgRating: Number(row.avgRating) || 0,
+                avgDifficulty: Number(row.avgDifficulty) || 0,
+                avgUsefulness: Number(row.avgUsefulness) || 0,
+                avgEnjoyment: Number(row.avgEnjoyment) || 0,
+                reviewCount: Number(row.reviewCount) || 0,
+                mostRecentReview: row.mostRecentReview ?? null,
+            });
+        }
     } catch (error) {
         console.error('Error fetching course DB statistics:', error);
     }
 
-    // Find course codes in the database that are no longer in the API (case-insensitive)
-    const apiCourseCodes = new Set(apiCourses.map((c) => c.code.toLowerCase()));
-    const noLongerOfferedStats = dbStats.filter((s) => !apiCourseCodes.has(s.courseCode.toLowerCase()));
+    // 3. Map aggregates onto initial 36 courses
+    const initialCoursesBatch = apiCourses.map((course) => {
+        const stat = dbStatsMap.get(course.code.toLowerCase());
+        return {
+            ...course,
+            isNoLongerOffered: false,
+            subject: extractSubject(course.code),
+            avgRating: stat?.avgRating ?? 0,
+            avgDifficulty: stat?.avgDifficulty ?? 0,
+            avgUsefulness: stat?.avgUsefulness ?? 0,
+            avgEnjoyment: stat?.avgEnjoyment ?? 0,
+            reviewCount: stat?.reviewCount ?? 0,
+            mostRecentReview: stat?.mostRecentReview ?? null,
+        };
+    });
 
-    const noLongerOfferedCourses = noLongerOfferedStats.map((stat) => ({
-        code: stat.courseCode,
-        name: stat.courseCode, // fallback to code prefix
-        description: 'This course is no longer offered by Adelaide University, but its historical reviews have been preserved below.',
-        terms: ['No Longer Offered'],
-        officialLink: '#',
-        isNoLongerOffered: true,
-        subject: extractSubject(stat.courseCode),
-        avgRating: stat.avgRating,
-        avgDifficulty: stat.avgDifficulty,
-        avgUsefulness: stat.avgUsefulness,
-        avgEnjoyment: stat.avgEnjoyment,
-        reviewCount: stat.reviewCount,
-        mostRecentReview: stat.mostRecentReview,
-    }));
-
-    // 3. Map aggregates onto API courses list and combine with no-longer-offered courses
-    const coursesWithStats = [
-        ...apiCourses.map((course) => {
-            const stat = dbStats.find((s) => s.courseCode.toLowerCase() === course.code.toLowerCase());
-            return {
-                ...course,
-                isNoLongerOffered: false,
-                subject: extractSubject(course.code),
-                avgRating: stat?.avgRating ?? 0,
-                avgDifficulty: stat?.avgDifficulty ?? 0,
-                avgUsefulness: stat?.avgUsefulness ?? 0,
-                avgEnjoyment: stat?.avgEnjoyment ?? 0,
-                reviewCount: stat?.reviewCount ?? 0,
-                mostRecentReview: stat?.mostRecentReview ?? null,
-            };
-        }),
-        ...noLongerOfferedCourses,
-    ];
-
-    return <BrowseCoursesClient courses={coursesWithStats} />;
+    return <BrowseCoursesClient courses={initialCoursesBatch} />;
 }
