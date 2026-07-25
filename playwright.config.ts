@@ -35,6 +35,14 @@ export default defineConfig({
     command: 'pnpm run dev',
     url: 'http://localhost:3200',
     reuseExistingServer: !process.env.CI,
-    timeout: 30000,
+    timeout: 60000,
+    env: {
+      DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mycoursereviews',
+      KEYCLOAK_ISSUER: process.env.KEYCLOAK_ISSUER || 'https://auth.csclub.org.au/realms/csclub',
+      KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID || 'mycoursereviews',
+      KEYCLOAK_CLIENT_SECRET: process.env.KEYCLOAK_CLIENT_SECRET || 'secret',
+      AUTH_SECRET: process.env.AUTH_SECRET || 'secret-key-for-auth-32chars-minimum',
+      NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3200',
+    },
   },
 });

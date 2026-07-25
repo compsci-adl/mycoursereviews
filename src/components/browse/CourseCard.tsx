@@ -20,8 +20,8 @@ interface CourseWithStats extends CourseData {
 
 interface CourseCardProps {
     course: CourseWithStats;
-    idx: number;
-    pageSize: number;
+    idx?: number;
+    pageSize?: number;
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {

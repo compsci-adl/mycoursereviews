@@ -13,18 +13,20 @@ export function getSqliteDbPath(): string | null {
         return resolvedDbPath;
     }
 
-    const currentDir = /*turbopackIgnore: true*/ process.cwd();
+    try {
+        const localPath = path.join(/*turbopackIgnore: true*/ process.cwd(), 'src/lib/courses.sqlite3');
+        if (fs.existsSync(localPath)) {
+            resolvedDbPath = localPath;
+            return localPath;
+        }
+    } catch {}
 
     const candidates = [
         process.env.COURSES_DB_PATH,
-        path.resolve(currentDir, 'src/lib/courses.sqlite3'),
-        path.resolve(currentDir, 'courses.sqlite3'),
         '/data/courses-api/local.sqlite3',
         '/data/courses-api/dev.sqlite3',
         '/app/courses-api/src/local.sqlite3',
         '/app/courses-api/src/dev.sqlite3',
-        path.resolve(currentDir, '../courses-api/src/local.sqlite3'),
-        path.resolve(currentDir, '../courses-api/src/dev.sqlite3'),
     ].filter(Boolean) as string[];
 
     for (const candidate of candidates) {
