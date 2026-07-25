@@ -469,7 +469,7 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                     </div>
 
                     {/* Infinite scroll sentinel */}
-                    <div ref={sentinelRef} className="flex justify-center py-8 w-full min-h-[60px]">
+                    <div ref={sentinelRef} id="infinite-scroll-sentinel" className="flex justify-center py-8 w-full min-h-[60px]">
                         {hasMore && (
                             <div className="flex items-center gap-2 text-foreground font-mono text-sm font-black uppercase bg-yellow border-3 border-foreground px-4 py-2 shadow-[4px_4px_0px_0px_#000] animate-pulse">
                                 <Spinner size="sm" color="current" />

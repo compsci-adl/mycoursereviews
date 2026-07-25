@@ -29,18 +29,14 @@ declare module '@react-types/shared' {
     }
 }
 
-import { SSRProvider } from '@react-aria/ssr';
-
 export function Providers({ children, themeProps }: ProvidersProps) {
     const router = useRouter();
 
     return (
         <SessionProvider>
-            <SSRProvider>
-                <HeroUIProvider navigate={router.push}>
-                    <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-                </HeroUIProvider>
-            </SSRProvider>
+            <HeroUIProvider navigate={router.push}>
+                <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+            </HeroUIProvider>
         </SessionProvider>
     );
 }

@@ -20,8 +20,18 @@ test('courses page renders course cards, filters, search, and infinite scroll', 
     const firstCourseCard = page.getByTestId('course-card').first();
     await expect(firstCourseCard).toBeVisible();
 
-    // 4. Verify scrolling triggers infinite loading of additional cards
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    // 4. Test searching for a course and clearing search
+    await searchInput.fill('ACCT');
+    await page.waitForTimeout(300);
+    const searchCards = page.getByTestId('course-card');
+    expect(await searchCards.count()).toBeGreaterThan(0);
+
+    // Clear search query so all courses are shown
+    await searchInput.fill('');
+    await page.waitForTimeout(300);
+
+    // 5. Verify scrolling triggers infinite loading of additional cards
+    await page.locator('#infinite-scroll-sentinel').scrollIntoViewIfNeeded();
     await page.waitForTimeout(600);
 
     // Verify card count increases after scroll
