@@ -87,6 +87,7 @@ const localKeycloakUrl = resolveKeycloakUrl(
 const authRealm = resolveAuthRealm(process.env.NEXT_PUBLIC_AUTH_REALM, process.env.KEYCLOAK_ISSUER);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    secret: process.env.AUTH_SECRET,
     providers: [
         Keycloak({
             checks: resolveChecks(process.env.NODE_ENV, process.env.SKIP_ENV_VALIDATION),

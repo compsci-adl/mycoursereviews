@@ -9,12 +9,28 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mycoursereviews
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mycoursereviews"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
-      DATABASE_URL: "file:dev.sqlite"
-      KEYCLOAK_ISSUER: "http://localhost:8080/realms/cs-club"
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/mycoursereviews"
+      KEYCLOAK_ISSUER: "https://auth.csclub.org.au/realms/csclub"
       KEYCLOAK_CLIENT_ID: "mycoursereviews"
       KEYCLOAK_CLIENT_SECRET: "secret"
-      AUTH_SECRET: "secret"
+      AUTH_SECRET: "secret-key-for-auth-32chars-minimum"
+      NEXTAUTH_URL: "http://localhost:3000"
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
@@ -23,8 +39,12 @@ jobs:
       - name: Install dependencies
         run: npm install -g pnpm@11 && pnpm install
 
+      - name: Push Database Schema
+        run: pnpm run db:push
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
+
       - name: Run Playwright tests
         run: pnpm test:e2e
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6

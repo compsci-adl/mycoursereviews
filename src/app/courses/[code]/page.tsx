@@ -52,8 +52,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
             .from(reviews)
             .leftJoin(users, eq(reviews.userId, users.id))
             .where(eq(reviews.courseCode, targetCode));
-    } catch (error) {
-        console.error('Error fetching course reviews:', error);
+    } catch (error: any) {
+        console.warn('PostgreSQL unavailable (running in offline mode):', error?.message || error);
     }
 
     if (!courseData) {

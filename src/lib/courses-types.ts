@@ -23,6 +23,22 @@ export interface CourseData {
 // Robust fallback course mocks for developer ease & server safety
 export const FALLBACK_COURSES: CourseData[] = [
     {
+        code: 'ACCT1004',
+        name: 'OL Introductory Accounting',
+        description: 'An introductory course covering fundamental principles of financial accounting, double-entry bookkeeping, financial statements, and manager decision making.',
+        terms: ['UAO Teaching Period 1', 'UAO Teaching Period 5', 'UAO Teaching Period 3'],
+        officialLink: '#',
+        subjectName: 'Accounting',
+    },
+    {
+        code: 'ACCT1001',
+        name: 'Financial Accounting 1',
+        description: 'Covers core principles of financial reporting, transaction recording, asset and liability valuation, and preparation of basic financial statements.',
+        terms: ['Semester 1', 'Semester 2'],
+        officialLink: '#',
+        subjectName: 'Accounting',
+    },
+    {
         code: 'COMP SCI 1102',
         name: 'Object Oriented Programming',
         description: 'An introduction to programming in the object-oriented paradigm. Topics include classes, objects, inheritance, polymorphism, design patterns, and debugging structures.',

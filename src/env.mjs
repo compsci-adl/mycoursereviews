@@ -5,10 +5,10 @@ export const env = createEnv({
     server: {
         NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
         AUTH_SECRET: z.string().min(1),
-        NEXTAUTH_URL: z.url().default('https://mycoursereviews.csclub.org.au'),
+        NEXTAUTH_URL: z.string().optional(),
         KEYCLOAK_CLIENT_ID: z.string().min(1),
         KEYCLOAK_CLIENT_SECRET: z.string().min(1),
-        KEYCLOAK_ISSUER: z.url(),
+        KEYCLOAK_ISSUER: z.string().min(1),
         DATABASE_URL: z.string().min(1),
         COURSES_DB_PATH: z.string().optional(),
     },

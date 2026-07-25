@@ -56,8 +56,8 @@ export default async function CoursesPage() {
                 mostRecentReview: row.mostRecentReview ?? null,
             });
         }
-    } catch (error) {
-        console.error('Error fetching course DB statistics:', error);
+    } catch (error: any) {
+        console.warn('PostgreSQL unavailable (running in offline mode):', error?.message || error);
     }
 
     // 3. Map aggregates onto initial 36 courses

@@ -51,8 +51,8 @@ export async function GET() {
                     mostRecentReview: row.mostRecentReview ?? null,
                 });
             }
-        } catch (dbErr) {
-            console.error('API courses endpoint: DB stats query failed:', dbErr);
+        } catch (dbErr: any) {
+            console.warn('PostgreSQL unavailable (running in offline mode):', dbErr?.message || dbErr);
         }
 
         const apiCourseCodes = new Set(apiCourses.map((c) => c.code.toLowerCase()));
