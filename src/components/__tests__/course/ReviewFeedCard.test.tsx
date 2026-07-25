@@ -207,8 +207,8 @@ describe('ReviewFeedCard Component', () => {
         const likeBtn = screen.getByRole('button', { name: /Like/i });
         fireEvent.click(likeBtn);
 
-        assert.strictEqual(mockAlert.mock.callCount(), 1);
-        assert.strictEqual(mockAlert.mock.calls[0].arguments[0], 'Please login to like reviews.');
+        assert.ok(screen.getByTestId('moderation-warning-modal'));
+        assert.ok(screen.getByTestId('moderation-warning-message').textContent?.includes('You must be logged in to like reviews.'));
         assert.strictEqual(mockOnLike.mock.callCount(), 0);
     });
 
@@ -259,8 +259,8 @@ describe('ReviewFeedCard Component', () => {
         fireEvent.click(likeBtn);
 
         await waitFor(() => {
-            assert.strictEqual(mockAlert.mock.callCount(), 1);
-            assert.strictEqual(mockAlert.mock.calls[0].arguments[0], 'Network failure');
+            assert.ok(screen.getByTestId('moderation-warning-modal'));
+            assert.ok(screen.getByTestId('moderation-warning-message').textContent?.includes('Network failure'));
         });
     });
 
@@ -434,8 +434,8 @@ describe('ReviewFeedCard Component', () => {
         fireEvent.click(deleteBtn);
 
         await waitFor(() => {
-            assert.strictEqual(mockAlert.mock.callCount(), 1);
-            assert.strictEqual(mockAlert.mock.calls[0].arguments[0], 'Deletion failed');
+            assert.ok(screen.getByTestId('moderation-warning-modal'));
+            assert.ok(screen.getByTestId('moderation-warning-message').textContent?.includes('Deletion failed'));
         });
     });
 

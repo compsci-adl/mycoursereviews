@@ -36,7 +36,7 @@ export async function submitReview(input: ReviewInput) {
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: You must log in via Keycloak to review courses.' };
+            return { success: false, error: 'You must be logged in to submit a review.' };
         }
 
         // Validate request schema
@@ -90,7 +90,7 @@ export async function submitReview(input: ReviewInput) {
             console.error('Database error in submitReview:', dbErr);
             return {
                 success: false,
-                error: 'Database error: Unable to save review to PostgreSQL. Please verify database connection configuration.'
+                error: 'We couldn\'t save your review right now due to a temporary service error. Please try again in a few moments.'
             };
         }
 
@@ -100,7 +100,7 @@ export async function submitReview(input: ReviewInput) {
         return { success: true };
     } catch (err: any) {
         console.error('Error submitting review:', err);
-        return { success: false, error: err?.message || 'An unexpected error occurred while submitting review.' };
+        return { success: false, error: err?.message || 'An unexpected error occurred while saving your review. Please try again.' };
     }
 }
 
@@ -111,7 +111,7 @@ export async function toggleLike(reviewId: string) {
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Log in to like reviews.' };
+            return { success: false, error: 'You must be logged in to like reviews.' };
         }
 
         const userId = session.user.id;
@@ -156,10 +156,10 @@ export async function toggleLike(reviewId: string) {
             return { success: true, liked: !existingLike };
         } catch (dbErr: any) {
             console.error('Database error in toggleLike:', dbErr);
-            return { success: false, error: 'Database connection error.' };
+            return { success: false, error: 'Unable to update like status right now. Please try again.' };
         }
     } catch (err: any) {
-        return { success: false, error: err?.message || 'Failed to toggle like.' };
+        return { success: false, error: err?.message || 'Unable to update like status. Please try again.' };
     }
 }
 
@@ -170,7 +170,7 @@ export async function addComment(reviewId: string, content: string, parentId?: s
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Log in to comment.' };
+            return { success: false, error: 'You must be logged in to post comments.' };
         }
 
         if (!content || content.trim().length === 0) {
@@ -208,7 +208,7 @@ export async function addComment(reviewId: string, content: string, parentId?: s
             });
         } catch (dbErr: any) {
             console.error('Database error in addComment:', dbErr);
-            return { success: false, error: 'Database connection error. Could not post comment.' };
+            return { success: false, error: 'We couldn\'t post your comment right now. Please try again in a few moments.' };
         }
 
         const review = await db.query.reviews.findFirst({
@@ -220,7 +220,7 @@ export async function addComment(reviewId: string, content: string, parentId?: s
         }
         return { success: true };
     } catch (err: any) {
-        return { success: false, error: err?.message || 'Failed to add comment.' };
+        return { success: false, error: err?.message || 'Unable to post comment. Please try again.' };
     }
 }
 
@@ -231,7 +231,7 @@ export async function deleteReview(reviewId: string) {
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Log in to delete reviews.' };
+            return { success: false, error: 'You must be logged in to delete reviews.' };
         }
 
         const review = await db.query.reviews.findFirst({
@@ -239,14 +239,14 @@ export async function deleteReview(reviewId: string) {
         });
 
         if (!review) {
-            return { success: false, error: 'Review not found.' };
+            return { success: false, error: 'Review not found or has already been removed.' };
         }
 
         const isUserAdmin = session.user.role === 'admin';
         const isOwner = review.userId === session.user.id;
 
         if (!isUserAdmin && !isOwner) {
-            return { success: false, error: 'Forbidden: You can only delete reviews you wrote.' };
+            return { success: false, error: 'You can only delete your own reviews.' };
         }
 
         await db.delete(reviews).where(eq(reviews.id, reviewId));
@@ -258,7 +258,7 @@ export async function deleteReview(reviewId: string) {
 
         return { success: true };
     } catch (err: any) {
-        return { success: false, error: err?.message || 'Failed to delete review.' };
+        return { success: false, error: err?.message || 'Unable to delete review right now. Please try again.' };
     }
 }
 
@@ -269,7 +269,7 @@ export async function deleteComment(commentId: string) {
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Log in to delete comments.' };
+            return { success: false, error: 'You must be logged in to delete comments.' };
         }
 
         const comment = await db.query.comments.findFirst({
@@ -277,7 +277,7 @@ export async function deleteComment(commentId: string) {
         });
 
         if (!comment) {
-            return { success: false, error: 'Comment not found.' };
+            return { success: false, error: 'Comment not found or has already been removed.' };
         }
 
         const review = await db.query.reviews.findFirst({
@@ -288,7 +288,7 @@ export async function deleteComment(commentId: string) {
         const isOwner = comment.userId === session.user.id;
 
         if (!isUserAdmin && !isOwner) {
-            return { success: false, error: 'Forbidden: You can only delete comments you wrote.' };
+            return { success: false, error: 'You can only delete your own comments.' };
         }
 
         await db.delete(comments).where(eq(comments.id, commentId));
@@ -300,7 +300,7 @@ export async function deleteComment(commentId: string) {
 
         return { success: true };
     } catch (err: any) {
-        return { success: false, error: err?.message || 'Failed to delete comment.' };
+        return { success: false, error: err?.message || 'Unable to delete comment right now. Please try again.' };
     }
 }
 
@@ -324,7 +324,7 @@ export async function updateReview(reviewId: string, input: z.infer<typeof Updat
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Log in to update reviews.' };
+            return { success: false, error: 'You must be logged in to edit reviews.' };
         }
 
         const validated = UpdateReviewSchema.parse(input);
@@ -348,11 +348,11 @@ export async function updateReview(reviewId: string, input: z.infer<typeof Updat
         });
 
         if (!review) {
-            return { success: false, error: 'Review not found.' };
+            return { success: false, error: 'Review not found or has already been removed.' };
         }
 
         if (review.userId !== session.user.id) {
-            return { success: false, error: 'Forbidden: You can only edit reviews you wrote.' };
+            return { success: false, error: 'You can only edit your own reviews.' };
         }
 
         await db.update(reviews)
@@ -375,7 +375,7 @@ export async function updateReview(reviewId: string, input: z.infer<typeof Updat
 
         return { success: true };
     } catch (err: any) {
-        return { success: false, error: err?.message || 'Failed to update review.' };
+        return { success: false, error: err?.message || 'Unable to update review right now. Please try again.' };
     }
 }
 
@@ -386,7 +386,7 @@ export async function updateComment(commentId: string, content: string) {
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Log in to update comments.' };
+            return { success: false, error: 'You must be logged in to edit comments.' };
         }
 
         if (!content || content.trim().length === 0) {
@@ -408,11 +408,11 @@ export async function updateComment(commentId: string, content: string) {
         });
 
         if (!comment) {
-            return { success: false, error: 'Comment not found.' };
+            return { success: false, error: 'Comment not found or has already been removed.' };
         }
 
         if (comment.userId !== session.user.id) {
-            return { success: false, error: 'Forbidden: You can only edit comments you wrote.' };
+            return { success: false, error: 'You can only edit your own comments.' };
         }
 
         await db.update(comments)
@@ -432,6 +432,6 @@ export async function updateComment(commentId: string, content: string) {
 
         return { success: true };
     } catch (err: any) {
-        return { success: false, error: err?.message || 'Failed to update comment.' };
+        return { success: false, error: err?.message || 'Unable to update comment right now. Please try again.' };
     }
 }

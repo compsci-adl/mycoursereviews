@@ -41,6 +41,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
     // Last Major Update voting state
     const [voteData, setVoteData] = useState(updateVoteData);
     const [voteLoading, setVoteLoading] = useState(false);
+    const [voteError, setVoteError] = useState<string | null>(null);
 
     // Review Edit Modal States
     const { isOpen: isReviewEditOpen, onOpen: onReviewEditOpen, onOpenChange: onReviewEditOpenChange } = useDisclosure();
@@ -108,10 +109,11 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                 setVoteData(res.voteData);
             } else if (res && !res.success) {
                 setVoteData(prev); // rollback on error
-                alert(res.error || 'Failed to submit course update vote');
+                setVoteError(res.error || 'Failed to submit course update vote');
             }
         } catch {
             setVoteData(prev); // rollback on error
+            setVoteError('Failed to submit course update vote');
         } finally {
             setVoteLoading(false);
         }
@@ -280,6 +282,8 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                             voteLoading={voteLoading}
                             onAuthOpen={onAuthOpen}
                             session={session}
+                            voteError={voteError}
+                            onClearVoteError={() => setVoteError(null)}
                         />
                         {/* Description / Requirements / Assessments / Outcomes / Resources */}
                         <CourseOverviewSection course={course} />

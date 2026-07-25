@@ -13,6 +13,8 @@ interface LastMajorUpdateSectionProps {
     voteLoading: boolean;
     onAuthOpen: () => void;
     session: any;
+    voteError?: string | null;
+    onClearVoteError?: () => void;
 }
 
 export const LastMajorUpdateSection = ({
@@ -21,6 +23,8 @@ export const LastMajorUpdateSection = ({
     voteLoading,
     onAuthOpen,
     session,
+    voteError,
+    onClearVoteError,
 }: LastMajorUpdateSectionProps) => {
     const [showDisputeSelector, setShowDisputeSelector] = useState(false);
     const [selectedDisputeTerm, setSelectedDisputeTerm] = useState<string>('');
@@ -38,6 +42,14 @@ export const LastMajorUpdateSection = ({
 
     return (
         <div className="border-t-3 border-foreground pt-5 flex flex-col gap-3 w-full font-mono">
+            {voteError && (
+                <div className="bg-red-500/10 border-2 border-red-500 text-red-600 dark:text-red-400 p-2.5 text-xs font-mono font-bold flex justify-between items-center rounded-none">
+                    <span>{voteError}</span>
+                    {onClearVoteError && (
+                        <button onClick={onClearVoteError} className="text-xs font-black px-1.5 hover:opacity-75 cursor-pointer">&times;</button>
+                    )}
+                </div>
+            )}
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-col gap-0.5">
                     <h2 className="font-mixtape text-xs uppercase font-extrabold text-foreground/50 tracking-wider">Last Major Update</h2>

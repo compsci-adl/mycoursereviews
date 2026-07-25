@@ -40,21 +40,30 @@ export const MyCommentsFeed = ({ comments, courseMap, onEditSave, onDeleteClick 
         setEditingCommentContent('');
     };
 
+    const [commentError, setCommentError] = useState<string | null>(null);
+
     const handleSubmit = (commentId: string) => {
         if (!editingCommentContent.trim()) return;
+        setCommentError(null);
         startActionTransition(async () => {
             try {
                 await onEditSave(commentId, editingCommentContent);
                 setEditingCommentId(null);
                 setEditingCommentContent('');
             } catch (err: any) {
-                alert(err.message || 'Failed to update comment');
+                setCommentError(err.message || 'Unable to update comment right now.');
             }
         });
     };
 
     return (
         <div className="flex flex-col gap-6">
+            {commentError && (
+                <div className="bg-red-500/10 border-2 border-red-500 text-red-600 dark:text-red-400 p-3 text-xs font-mono font-bold flex justify-between items-center rounded-none">
+                    <span>{commentError}</span>
+                    <button onClick={() => setCommentError(null)} className="text-xs font-black px-2 hover:opacity-75 cursor-pointer">&times;</button>
+                </div>
+            )}
             {comments.map((comment, idx) => {
                 const courseName = courseMap[comment.courseCode.toLowerCase()] || comment.courseCode;
                 const isEditing = editingCommentId === comment.id;

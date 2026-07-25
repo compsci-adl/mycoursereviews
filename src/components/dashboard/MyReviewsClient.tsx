@@ -30,13 +30,15 @@ export const MyReviewsClient = ({ reviews, comments, courseMap }: MyReviewsClien
         await updateComment(commentId, content);
     };
 
+    const [actionError, setActionError] = useState<string | null>(null);
+
     const handleCommentDeleteClick = (commentId: string) => {
         if (!confirm('Are you sure you want to delete this comment?')) return;
+        setActionError(null);
         startActionTransition(async () => {
-            try {
-                await deleteComment(commentId);
-            } catch (err: any) {
-                alert(err.message || 'Failed to delete comment');
+            const res = await deleteComment(commentId);
+            if (res && !res.success) {
+                setActionError(res.error || 'Unable to delete comment right now.');
             }
         });
     };
@@ -44,11 +46,11 @@ export const MyReviewsClient = ({ reviews, comments, courseMap }: MyReviewsClien
     // Review CRUD triggers
     const handleReviewDeleteClick = (reviewId: string) => {
         if (!confirm('Are you sure you want to delete this review? This will permanently remove all sub-scores, likes, and nested comments.')) return;
+        setActionError(null);
         startActionTransition(async () => {
-            try {
-                await deleteReview(reviewId);
-            } catch (err: any) {
-                alert(err.message || 'Failed to delete review');
+            const res = await deleteReview(reviewId);
+            if (res && !res.success) {
+                setActionError(res.error || 'Unable to delete review right now.');
             }
         });
     };
@@ -81,6 +83,12 @@ export const MyReviewsClient = ({ reviews, comments, courseMap }: MyReviewsClien
     return (
         <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet mx-[-1.5rem] sm:mx-[-2rem] mt-[-2rem] px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
             <div className="max-w-screen-xl w-full flex flex-col gap-8 md:gap-12">
+                {actionError && (
+                    <div className="bg-red-500/10 border-2 border-red-500 text-red-600 dark:text-red-400 p-3 text-xs font-mono font-bold flex justify-between items-center rounded-none">
+                        <span>{actionError}</span>
+                        <button onClick={() => setActionError(null)} className="text-xs font-black px-2 hover:opacity-75 cursor-pointer">&times;</button>
+                    </div>
+                )}
                 
                 {/* Dashboard Title Banner */}
                 <div className="flex flex-col gap-2 bg-background border-4 border-foreground p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_#000] dark:shadow-[6px_6px_0px_0px_#fff]">

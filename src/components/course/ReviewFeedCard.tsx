@@ -74,14 +74,16 @@ export const ReviewFeedCard = ({
 
     const handleLikeClick = () => {
         if (!session) {
-            alert('Please login to like reviews.');
+            setWarningMessage('You must be logged in to like reviews.');
+            setIsWarningOpen(true);
             return;
         }
         startLikeTransition(async () => {
             try {
                 await onLike(review.id);
             } catch (err: any) {
-                alert(err.message || 'Failed to toggle like.');
+                setWarningMessage(err.message || 'Unable to update like status right now.');
+                setIsWarningOpen(true);
             }
         });
     };
@@ -92,7 +94,8 @@ export const ReviewFeedCard = ({
             try {
                 await onReviewDelete(review.id);
             } catch (err: any) {
-                alert(err.message || 'Failed to delete review');
+                setWarningMessage(err.message || 'Unable to delete review right now.');
+                setIsWarningOpen(true);
             }
         });
     };

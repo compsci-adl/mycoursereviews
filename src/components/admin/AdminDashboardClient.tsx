@@ -59,34 +59,44 @@ export const AdminDashboardClient = ({ reviews, comments, stats }: AdminDashboar
         onCommentOpen();
     };
 
+    const [actionError, setActionError] = useState<string | null>(null);
+
     const handleReviewDelete = (onClose: () => void) => {
         if (!selectedReview) return;
+        setActionError(null);
         startTransition(async () => {
-            try {
-                await deleteReview(selectedReview.id);
-                setSelectedReview(null);
-                onClose();
-            } catch (err: any) {
-                alert(err.message || 'Failed to remove review');
+            const res = await deleteReview(selectedReview.id);
+            if (res && !res.success) {
+                setActionError(res.error || 'Unable to remove review right now.');
+                return;
             }
+            setSelectedReview(null);
+            onClose();
         });
     };
 
     const handleCommentDelete = (onClose: () => void) => {
         if (!selectedComment) return;
+        setActionError(null);
         startTransition(async () => {
-            try {
-                await deleteComment(selectedComment.id);
-                setSelectedComment(null);
-                onClose();
-            } catch (err: any) {
-                alert(err.message || 'Failed to remove comment');
+            const res = await deleteComment(selectedComment.id);
+            if (res && !res.success) {
+                setActionError(res.error || 'Unable to remove comment right now.');
+                return;
             }
+            setSelectedComment(null);
+            onClose();
         });
     };
 
     return (
         <div className="flex flex-col gap-8">
+            {actionError && (
+                <div className="bg-red-500/10 border-2 border-red-500 text-red-600 dark:text-red-400 p-3 text-xs font-mono font-bold flex justify-between items-center rounded-none">
+                    <span>{actionError}</span>
+                    <button onClick={() => setActionError(null)} className="text-xs font-black px-2 hover:opacity-75 cursor-pointer">&times;</button>
+                </div>
+            )}
             
             {/* Page Header */}
             <div className="font-mono">

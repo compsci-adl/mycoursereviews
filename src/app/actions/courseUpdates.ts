@@ -71,7 +71,7 @@ export async function voteOnCourseUpdate(courseCode: string, suggestedTerm: stri
     try {
         const session = await auth();
         if (!session?.user?.id) {
-            return { success: false, error: 'Unauthorized: Please log in via Keycloak to vote.' };
+            return { success: false, error: 'You must be logged in to vote on course updates.' };
         }
         const userId = session.user.id;
 
@@ -102,7 +102,7 @@ export async function voteOnCourseUpdate(courseCode: string, suggestedTerm: stri
             console.error('Database error in voteOnCourseUpdate:', dbErr);
             return {
                 success: false,
-                error: 'Database connection or write error. Unable to record vote at this time.'
+                error: 'We couldn\'t record your vote right now due to a temporary service error. Please try again shortly.'
             };
         }
 
@@ -112,6 +112,6 @@ export async function voteOnCourseUpdate(courseCode: string, suggestedTerm: stri
         return { success: true, voteData: updatedVoteData };
     } catch (err: any) {
         console.error('Error voting on course update:', err);
-        return { success: false, error: err?.message || 'Failed to submit course update vote.' };
+        return { success: false, error: err?.message || 'Unable to record your vote at this time. Please try again.' };
     }
 }
