@@ -1,7 +1,7 @@
 services:
   mycoursereviews-keycloak:
     container_name: mycoursereviews-keycloak
-    image: quay.io/keycloak/keycloak:26.6.1
+    image: quay.io/keycloak/keycloak:26.6.1@sha256:dea26401d06341095cc4ea9d66896200b55de5ca1daa1d2fcbe58493afa6e0ad
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'curl', '--fail', 'http://localhost:8080']
@@ -18,7 +18,7 @@ services:
       - csclub
 
   mycoursereviews-db:
-    image: postgres:18-alpine
+    image: postgres:18-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
     container_name: mycoursereviews-db-dev
     environment:
       POSTGRES_USER: postgres
