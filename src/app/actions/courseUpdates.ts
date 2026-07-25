@@ -68,35 +68,50 @@ export async function getCourseUpdateVoteData(courseCode: string, userId?: strin
  * Same term as existing vote = toggle off (delete). Otherwise upsert.
  */
 export async function voteOnCourseUpdate(courseCode: string, suggestedTerm: string, defaultLastUpdate: string = DEFAULT_LAST_UPDATE) {
-    const session = await auth();
-    if (!session?.user?.id) throw new Error('Unauthorized: Log in to vote.');
-    const userId = session.user.id;
+    try {
+        const session = await auth();
+        if (!session?.user?.id) {
+            return { success: false, error: 'Unauthorized: Please log in via Keycloak to vote.' };
+        }
+        const userId = session.user.id;
 
-    await db.insert(users).values({
-        id: userId,
-        name: session.user.name || 'Adelaide Student',
-        role: session.user.role || 'user',
-    }).onConflictDoUpdate({
-        target: users.id,
-        set: { name: session.user.name || 'Adelaide Student', role: session.user.role || 'user' },
-    });
+        try {
+            await db.insert(users).values({
+                id: userId,
+                name: session.user.name || 'Adelaide Student',
+                role: session.user.role || 'user',
+            }).onConflictDoUpdate({
+                target: users.id,
+                set: { name: session.user.name || 'Adelaide Student', role: session.user.role || 'user' },
+            });
 
-    const existing = await db.query.courseUpdateVotes.findFirst({
-        where: and(eq(courseUpdateVotes.userId, userId), eq(courseUpdateVotes.courseCode, courseCode)),
-    });
+            const existing = await db.query.courseUpdateVotes.findFirst({
+                where: and(eq(courseUpdateVotes.userId, userId), eq(courseUpdateVotes.courseCode, courseCode)),
+            });
 
-    if (existing && existing.suggestedTerm === suggestedTerm) {
-        await db.delete(courseUpdateVotes).where(eq(courseUpdateVotes.id, existing.id));
-    } else if (existing) {
-        await db.update(courseUpdateVotes)
-            .set({ suggestedTerm, createdAt: new Date() })
-            .where(eq(courseUpdateVotes.id, existing.id));
-    } else {
-        await db.insert(courseUpdateVotes).values({ userId, courseCode, suggestedTerm });
+            if (existing && existing.suggestedTerm === suggestedTerm) {
+                await db.delete(courseUpdateVotes).where(eq(courseUpdateVotes.id, existing.id));
+            } else if (existing) {
+                await db.update(courseUpdateVotes)
+                    .set({ suggestedTerm, createdAt: new Date() })
+                    .where(eq(courseUpdateVotes.id, existing.id));
+            } else {
+                await db.insert(courseUpdateVotes).values({ userId, courseCode, suggestedTerm });
+            }
+        } catch (dbErr: any) {
+            console.error('Database error in voteOnCourseUpdate:', dbErr);
+            return {
+                success: false,
+                error: 'Database connection or write error. Unable to record vote at this time.'
+            };
+        }
+
+        const updatedVoteData = await getCourseUpdateVoteData(courseCode, userId, defaultLastUpdate);
+
+        revalidatePath(`/courses/${encodeURIComponent(courseCode)}`);
+        return { success: true, voteData: updatedVoteData };
+    } catch (err: any) {
+        console.error('Error voting on course update:', err);
+        return { success: false, error: err?.message || 'Failed to submit course update vote.' };
     }
-
-    const updatedVoteData = await getCourseUpdateVoteData(courseCode, userId, defaultLastUpdate);
-
-    revalidatePath(`/courses/${encodeURIComponent(courseCode)}`);
-    return { success: true, voteData: updatedVoteData };
 }

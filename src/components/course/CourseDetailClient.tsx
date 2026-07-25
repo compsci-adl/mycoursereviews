@@ -104,8 +104,11 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
         
         try {
             const res = await voteOnCourseUpdate(course.code, suggestedTerm, defaultLastUpdate);
-            if (res && res.voteData) {
+            if (res && res.success && res.voteData) {
                 setVoteData(res.voteData);
+            } else if (res && !res.success) {
+                setVoteData(prev); // rollback on error
+                alert(res.error || 'Failed to submit course update vote');
             }
         } catch {
             setVoteData(prev); // rollback on error

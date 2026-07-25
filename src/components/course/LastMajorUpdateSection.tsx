@@ -108,38 +108,42 @@ export const LastMajorUpdateSection = ({
             {showDisputeSelector && (
                 <div className="flex flex-wrap items-center gap-2 p-3 bg-foreground/5 border-2 border-dashed border-foreground/40 rounded-none mt-1">
                     <span className="font-mono text-[10px] font-black uppercase text-foreground/60 w-full">Select the correct last major update term:</span>
-                    {mounted && (
-                        <Select
-                            size="sm"
-                            radius="none"
-                            placeholder="Pick a term..."
-                            selectedKeys={selectedDisputeTerm ? [selectedDisputeTerm] : []}
-                            onSelectionChange={(keys) => setSelectedDisputeTerm(Array.from(keys)[0] as string)}
-                            className="font-mono flex-1 min-w-[180px] h-10"
-                            classNames={{
-                                trigger: "border-2 border-foreground bg-background rounded-none shadow-none h-10 min-h-10 text-foreground",
-                                value: "text-foreground font-mono text-[10px] data-[placeholder=true]:text-grey",
-                            }}
-                            popoverProps={{
-                                classNames: {
-                                    base: "rounded-none",
-                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1"
-                                }
-                            }}
-                            listboxProps={{
-                                itemClasses: {
-                                    base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs",
-                                }
-                            }}
-                            aria-label="Select correct term"
-                        >
-                            {UPDATE_TERM_OPTIONS.filter(t => t !== voteData.consensusTerm).map(term => (
-                                <SelectItem key={term} textValue={term} className="font-mono text-xs rounded-none">
-                                    {term}
-                                </SelectItem>
-                            ))}
-                        </Select>
-                    )}
+                    {mounted && (() => {
+                        const availableTerms = UPDATE_TERM_OPTIONS.filter(t => t !== voteData.consensusTerm);
+                        const validSelectedKeys = selectedDisputeTerm && availableTerms.includes(selectedDisputeTerm) ? [selectedDisputeTerm] : [];
+                        return (
+                            <Select
+                                size="sm"
+                                radius="none"
+                                placeholder="Pick a term..."
+                                selectedKeys={validSelectedKeys}
+                                onSelectionChange={(keys) => setSelectedDisputeTerm(Array.from(keys)[0] as string)}
+                                className="font-mono flex-1 min-w-45 h-10"
+                                classNames={{
+                                    trigger: "border-2 border-foreground bg-background rounded-none shadow-none h-10 min-h-10 text-foreground",
+                                    value: "text-foreground font-mono text-[10px] data-[placeholder=true]:text-grey",
+                                }}
+                                popoverProps={{
+                                    classNames: {
+                                        base: "rounded-none",
+                                        content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1"
+                                    }
+                                }}
+                                listboxProps={{
+                                    itemClasses: {
+                                        base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs",
+                                    }
+                                }}
+                                aria-label="Select correct term"
+                            >
+                                {availableTerms.map(term => (
+                                    <SelectItem key={term} textValue={term} className="font-mono text-xs rounded-none">
+                                        {term}
+                                    </SelectItem>
+                                ))}
+                            </Select>
+                        );
+                    })()}
                     <button
                         onClick={() => selectedDisputeTerm && handleVoteSubmit(selectedDisputeTerm)}
                         disabled={!selectedDisputeTerm || voteLoading}

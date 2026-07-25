@@ -124,11 +124,16 @@ export const ReviewModal = ({ isOpen, onOpenChange, courseCode }: ReviewModalPro
 
         startTransition(async () => {
             try {
-                await submitReview({
+                const res = await submitReview({
                     ...result.data,
                     courseCode,
                 });
                 
+                if (res && !res.success) {
+                    setErrors({ submit: res.error || 'Failed to submit review' });
+                    return;
+                }
+
                 // Clear state on success
                 setTitle('');
                 setDescription('');
