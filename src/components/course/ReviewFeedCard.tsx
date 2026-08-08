@@ -202,7 +202,7 @@ export const ReviewFeedCard = ({
                                     variant="light"
                                     color="primary"
                                     onPress={() => setIsExpanded(!isExpanded)}
-                                    className="font-mono text-[9px] uppercase font-extrabold h-5 mt-1 p-0 hover:underline min-w-0"
+                                    className="font-mono text-[9px] text-red uppercase font-extrabold h-5 mt-1 p-0 hover:underline min-w-0"
                                 >
                                     {isExpanded ? 'See Less' : 'See More'}
                                 </Button>
