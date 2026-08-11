@@ -10,7 +10,7 @@ import { fontSans } from '@/config/fonts';
 import { siteConfig } from '@/config/site';
 import { env } from '@/env.mjs';
 
-import { Providers } from './providers';
+import { Providers } from './providers'; 
 
 export const metadata: Metadata = {
     title: {
