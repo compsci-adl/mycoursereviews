@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    outputFileTracingIncludes: {
+        '**/*': ['./node_modules/@swc/helpers/**/*'],
+    },
     serverExternalPackages: ['node:sqlite'],
     async headers() {
         return [
