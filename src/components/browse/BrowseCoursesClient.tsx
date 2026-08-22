@@ -42,6 +42,7 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
     const [isPolling, setIsPolling] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSubjects, setSelectedSubjects] = useState<Set<string>>(new Set());
+    const [isSubjectAutocompleteOpen, setIsSubjectAutocompleteOpen] = useState(false);
     const [selectedTerms, setSelectedTerms] = useState<Set<string>>(new Set());
     const [sortBy, setSortBy] = useState<string>('recent');
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -258,12 +259,14 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                             labelPlacement="outside"
                             radius="none"
                             placeholder="Filter Subject Area"
-                            selectedKey={null}
+                            isOpen={isSubjectAutocompleteOpen}
+                            onOpenChange={setIsSubjectAutocompleteOpen}
                             onSelectionChange={(key) => {
                                 if (key) {
                                     const next = new Set(selectedSubjects);
                                     next.add(key as string);
                                     setSelectedSubjects(next);
+                                    setIsSubjectAutocompleteOpen(false);
                                 }
                             }}
                             aria-label="Filter by subject area"
