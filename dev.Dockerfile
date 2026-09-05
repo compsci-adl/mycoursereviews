@@ -14,4 +14,4 @@ RUN npm install -g pnpm@11 && pnpm install --frozen-lockfile
 
 EXPOSE $PORT
 
-CMD ["sh", "-c", "pnpm run db:push && pnpm run dev"]
+CMD ["sh", "-c", "pnpm run db:push && if [ \"$SEED_DB\" = \"true\" ]; then pnpm run db:seed; fi && pnpm run dev"]
