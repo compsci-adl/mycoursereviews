@@ -197,15 +197,13 @@ export const ReviewFeedCard = ({
                             </p>
                             
                             {shouldTruncate && (
-                                <Button
-                                    size="sm"
-                                    variant="light"
-                                    color="primary"
-                                    onPress={() => setIsExpanded(!isExpanded)}
-                                    className="font-mono text-[9px] uppercase font-extrabold h-5 mt-1 p-0 hover:underline min-w-0"
+                                <button
+                                    type="button"
+                                    onClick={() => setIsExpanded(!isExpanded)}
+                                    className="font-mono text-[10px] uppercase font-black text-foreground/85 hover:text-foreground dark:text-foreground/90 dark:hover:text-white underline underline-offset-4 decoration-2 decoration-foreground/40 hover:decoration-foreground cursor-pointer transition-colors mt-2 inline-flex items-center gap-1 select-none"
                                 >
                                     {isExpanded ? 'See Less' : 'See More'}
-                                </Button>
+                                </button>
                             )}
                         </div>
 

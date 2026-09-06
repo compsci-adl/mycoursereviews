@@ -28,16 +28,16 @@ export const SEED_USERS = [
 ];
 
 export const SEED_REVIEWS = [
-    // --- 1. COMP SCI 1102 (4 reviews) ---
+    // --- 1. COMP1003 (Structured Data - 4 reviews) ---
     {
         id: '10000000-0000-4000-8000-000000000001',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         userId: 'dev-user-alice',
-        title: 'Outstanding introduction to OOP concepts and Java programming',
+        title: 'Outstanding introduction to relational databases and structured data querying',
         description:
-            'COMP SCI 1102 is one of the most well-structured first-year courses at Adelaide. The transition from procedural code to object-oriented paradigms like inheritance, polymorphism, and encapsulation was explained clearly. Weekly practicals reinforced the lecture content well, and the teaching assistants were super helpful during lab sessions.',
+            'COMP1003 is one of the most well-structured introductory courses at Adelaide. Learning entity-relationship modeling, relational schema normalization, and writing expressive SQL queries was intuitive and practical. Weekly practicals reinforced the lecture content well, and the teaching assistants were super helpful during lab sessions.',
         overallRating: 5,
-        difficultyScore: 3.0,
+        difficultyScore: 2.5,
         usefulnessScore: 5.0,
         enjoymentScore: 4.5,
         termTaken: 'Semester 1, 2025',
@@ -46,26 +46,26 @@ export const SEED_REVIEWS = [
     },
     {
         id: '10000000-0000-4000-8000-000000000002',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         userId: 'dev-user-bob',
-        title: 'Solid fundamentals, but start assignments early',
+        title: 'Solid fundamentals, but start concept design milestones early',
         description:
-            'The coursework provides a solid foundation for any software engineering major. While the early weeks feel straightforward if you already know basic syntax, the final multi-file assignment can be tricky if left to the last minute. Make sure you attend workshops and test edge cases thoroughly.',
+            'The coursework provides a solid foundation for any software engineering major. While basic SELECT queries feel straightforward if you have prior SQL exposure, the concept design assignment and complex joins can be tricky if left to the last minute. Make sure you attend workshops and test edge cases thoroughly.',
         overallRating: 4,
-        difficultyScore: 3.5,
+        difficultyScore: 3.0,
         usefulnessScore: 4.5,
         enjoymentScore: 4.0,
-        termTaken: 'Semester 2, 2024',
+        termTaken: 'Semester 2, 2025',
         grade: 'D',
         isAnonymous: true,
     },
     {
         id: '10000000-0000-4000-8000-000000000003',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         userId: 'dev-user-charlie',
-        title: 'Great course structure with engaging practical workshops',
+        title: 'Great course structure with engaging practical query workshops',
         description:
-            'I really enjoyed the workshop activities and pair programming sessions. Breaking large problems into classes and object hierarchies felt very natural with the examples provided. The exam was fair and matched the sample revision tests provided on MyUni.',
+            'I really enjoyed the workshop activities and data modeling exercises. Translating real-world business requirements into normalized schemas and efficient queries felt very rewarding. The practical exam threshold was manageable with the revision material provided.',
         overallRating: 5,
         difficultyScore: 2.5,
         usefulnessScore: 5.0,
@@ -76,31 +76,31 @@ export const SEED_REVIEWS = [
     },
     {
         id: '10000000-0000-4000-8000-000000000004',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         userId: 'dev-user-diana',
-        title: 'Good stepping stone from introductory coding',
+        title: 'Essential data management stepping stone for modern software degrees',
         description:
-            'Coming from high school python, Java felt slightly verbose initially, but the design principles taught here are essential for upper-level CS courses. The weekly automated feedback tests were invaluable for learning to write clean and correct unit tests.',
+            'Understanding indexing, query performance, and basic role-based database security gave me so much confidence when working with real applications. The weekly automated query feedback tests were invaluable for learning to write clean and correct relational operations.',
         overallRating: 4,
         difficultyScore: 3.0,
-        usefulnessScore: 4.0,
+        usefulnessScore: 4.5,
         enjoymentScore: 4.0,
-        termTaken: 'Semester 2, 2024',
+        termTaken: 'Semester 2, 2025',
         grade: 'C',
         isAnonymous: false,
     },
 
-    // --- 2. COMP SCI 2000 (4 reviews) ---
+    // --- 2. COMP1040 (System Architecture - 4 reviews) ---
     {
         id: '10000000-0000-4000-8000-000000000005',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         userId: 'dev-user-bob',
-        title: 'Challenging deep-dive into low-level computer architecture',
+        title: 'Challenging deep-dive into software systems and modern architecture patterns',
         description:
-            'A very eye-opening course that demystifies how code actually executes on modern hardware. Writing assembly language and dissecting memory caching, virtual memory, and pipeline hazards was demanding but deeply rewarding. Highly recommended for students wanting to understand performance engineering.',
+            'A very eye-opening course that demystifies how large software systems are architected to scale reliably. Analyzing architectural concerns, component boundaries, and trade-offs between microservices and monoliths was demanding but deeply rewarding. Highly recommended for students wanting to understand system design.',
         overallRating: 4,
-        difficultyScore: 4.5,
-        usefulnessScore: 4.0,
+        difficultyScore: 4.0,
+        usefulnessScore: 4.5,
         enjoymentScore: 4.0,
         termTaken: 'Semester 1, 2025',
         grade: 'C',
@@ -108,28 +108,28 @@ export const SEED_REVIEWS = [
     },
     {
         id: '10000000-0000-4000-8000-000000000006',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         userId: 'dev-user-charlie',
-        title: 'Extremely tough workload with steep learning curve',
+        title: 'Demanding project deliverables with rigorous design documentation',
         description:
-            'Be prepared to spend a significant amount of hours each week debugging assembly and C code. The lectures move fast through processor architecture, and the mid-semester test was notoriously unforgiving. Helpful tutors, but the workload can be overwhelming alongside other project courses.',
-        overallRating: 2,
-        difficultyScore: 5.0,
-        usefulnessScore: 3.5,
-        enjoymentScore: 2.0,
-        termTaken: 'Semester 2, 2024',
+            'Be prepared to spend a significant amount of hours each week documenting architecture patterns and designing system interfaces. The lectures cover architectural tactics and service access in depth. Helpful tutors, but make sure your team coordinates consistently on system modeling.',
+        overallRating: 3,
+        difficultyScore: 4.5,
+        usefulnessScore: 4.0,
+        enjoymentScore: 3.0,
+        termTaken: 'Semester 1, 2025',
         grade: 'P',
         isAnonymous: true,
     },
     {
         id: '10000000-0000-4000-8000-000000000007',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         userId: 'dev-user-ethan',
-        title: 'Brilliant insights into hardware and operating system internals',
+        title: 'Brilliant insights into capturing architectural quality attributes',
         description:
-            'If you want to truly know what happens under the hood when a function call happens, this course is unmatched. Understanding the stack frame, registers, and cache misses will change how you write code in higher-level languages forever. Tough assignments, but worth every minute.',
+            'If you want to truly understand how to design scalable, fault-tolerant, and maintainable enterprise software, this course is unmatched. Understanding latency budgets, decoupling mechanisms, and service layers will change how you write code forever. Tough assignments, but worth every minute.',
         overallRating: 5,
-        difficultyScore: 4.0,
+        difficultyScore: 3.5,
         usefulnessScore: 5.0,
         enjoymentScore: 4.5,
         termTaken: 'Semester 1, 2025',
@@ -138,78 +138,78 @@ export const SEED_REVIEWS = [
     },
     {
         id: '10000000-0000-4000-8000-000000000008',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         userId: 'dev-user-fiona',
-        title: 'Steep hill to climb but tutors make the difference',
+        title: 'Steep conceptual curve but tutors make the difference',
         description:
-            'The jump in complexity from first year is real. Binary arithmetic, bit shifting, and pointer arithmetic can be mind-bending at first. Don\'t skip any practical sessions, and take advantage of the drop-in tutoring center if you get stuck on the assembly assignments.',
-        overallRating: 3,
-        difficultyScore: 4.5,
-        usefulnessScore: 4.0,
-        enjoymentScore: 3.0,
-        termTaken: 'Semester 2, 2024',
+            'The transition from small individual coding tasks to evaluating enterprise architecture diagrams is a big leap. Quality attribute scenarios and architectural evaluation take some time to get used to. Don\'t skip any practical sessions, and take advantage of tutor consultation hours.',
+        overallRating: 4,
+        difficultyScore: 4.0,
+        usefulnessScore: 4.5,
+        enjoymentScore: 3.5,
+        termTaken: 'Semester 1, 2025',
         grade: 'D',
         isAnonymous: false,
     },
 
-    // --- 3. COMP SCI 2207 (4 reviews) ---
+    // --- 3. COMP2001 (Language Models, Translation and Execution - 4 reviews) ---
     {
         id: '10000000-0000-4000-8000-000000000009',
-        courseCode: 'COMP SCI 2207',
+        courseCode: 'COMP2001',
         userId: 'dev-user-diana',
-        title: 'The most practical web development course at the university',
+        title: 'Fascinating journey from formal grammars to compiler execution',
         description:
-            'This course gives you real-world full-stack development experience from day one. You learn HTTP protocols, relational database design with SQL, and modern web application patterns. The group project allows plenty of creative freedom and gave me great talking points for technical internship interviews.',
+            'This course gives you real-world compiler and language execution experience from day one. You learn formal automata, lexical analysis, recursive descent parsing, and abstract syntax tree evaluation. The project allows plenty of creative freedom and gave me great talking points for technical internship interviews.',
         overallRating: 5,
-        difficultyScore: 2.5,
+        difficultyScore: 3.5,
         usefulnessScore: 5.0,
         enjoymentScore: 5.0,
-        termTaken: 'Semester 1, 2025',
+        termTaken: 'Semester 2, 2025',
         grade: 'HD',
         isAnonymous: false,
     },
     {
         id: '10000000-0000-4000-8000-000000000010',
-        courseCode: 'COMP SCI 2207',
+        courseCode: 'COMP2001',
         userId: 'dev-user-charlie',
-        title: 'Enjoyable team project with great modern relevance',
+        title: 'Enjoyable interpreter project with great theoretical relevance',
         description:
-            'Building a complete end-to-end database-backed application was a highlight of my degree so far. Finding reliable team members is crucial since group milestones are heavily weighted. The SQL portion was taught especially well and made querying intuitive.',
+            'Building a complete end-to-end tokenizer and interpreter for a domain-specific language was a highlight of my degree so far. Finding reliable team members is crucial since translation milestones are heavily weighted. The grammar and parser generator sections were taught especially well.',
         overallRating: 4,
-        difficultyScore: 3.0,
-        usefulnessScore: 4.0,
+        difficultyScore: 3.5,
+        usefulnessScore: 4.5,
         enjoymentScore: 4.0,
-        termTaken: 'Semester 1, 2025',
+        termTaken: 'Semester 2, 2025',
         grade: 'D',
         isAnonymous: false,
     },
     {
         id: '10000000-0000-4000-8000-000000000011',
-        courseCode: 'COMP SCI 2207',
+        courseCode: 'COMP2001',
         userId: 'dev-user-george',
-        title: 'Great balance of frontend and backend architectures',
+        title: 'Great balance of language theory and pragmatic interpreter implementation',
         description:
-            'The syllabus does a fantastic job teaching both relational theory (normal forms, relational algebra) and pragmatic engineering practices. Building REST APIs and connecting them to persistent databases helped solidify concepts that other courses only talk about in theory.',
+            'The syllabus does a fantastic job teaching both theoretical foundations (context-free grammars, pushdown automata) and pragmatic runtime execution techniques. Writing software to translate and execute code helped solidify concepts that other courses only talk about in theory.',
         overallRating: 5,
-        difficultyScore: 2.5,
+        difficultyScore: 3.0,
         usefulnessScore: 5.0,
         enjoymentScore: 4.5,
-        termTaken: 'Semester 1, 2025',
+        termTaken: 'Semester 2, 2025',
         grade: 'HD',
         isAnonymous: false,
     },
     {
         id: '10000000-0000-4000-8000-000000000012',
-        courseCode: 'COMP SCI 2207',
+        courseCode: 'COMP2001',
         userId: 'dev-user-alice',
-        title: 'Highly rewarding if you pick dedicated group partners',
+        title: 'Highly rewarding practical assignment for language processing enthusiasts',
         description:
-            'The practical assignment is large and requires consistent collaboration on Git. As long as your team communicates and sets clear milestones early, you will have an enjoyable time shipping a working web application by the final demonstration session.',
+            'The practical translation assignment is substantial and requires consistent collaboration on Git. As long as your team communicates and sets clear milestones early for AST traversal and bytecode interpretation, you will have an enjoyable time shipping a working language runtime.',
         overallRating: 4,
-        difficultyScore: 3.0,
+        difficultyScore: 3.5,
         usefulnessScore: 4.5,
         enjoymentScore: 4.0,
-        termTaken: 'Semester 2, 2024',
+        termTaken: 'Semester 2, 2025',
         grade: 'HD',
         isAnonymous: true,
     },
@@ -620,13 +620,13 @@ export const SEED_REVIEWS = [
 ];
 
 export const SEED_COMMENTS = [
-    // --- Comments on COMP SCI 1102 (Review 1) ---
+    // --- Comments on COMP1003 (Review 1) ---
     {
         id: '20000000-0000-4000-8000-000000000001',
         reviewId: '10000000-0000-4000-8000-000000000001',
         userId: 'dev-user-bob',
         parentId: null,
-        content: 'Did you find the textbook necessary or were lecture slides enough for revision?',
+        content: 'Did you find the textbook necessary or were lecture slides and lab sheets enough for SQL revision?',
     },
     {
         id: '20000000-0000-4000-8000-000000000002',
@@ -640,60 +640,60 @@ export const SEED_COMMENTS = [
         reviewId: '10000000-0000-4000-8000-000000000001',
         userId: 'dev-user-ethan',
         parentId: null,
-        content: 'How many hours per week did you dedicate to the final programming assignment?',
+        content: 'How many hours per week did you dedicate to the concept design and normalization assignment?',
     },
     {
         id: '20000000-0000-4000-8000-000000000004',
         reviewId: '10000000-0000-4000-8000-000000000001',
         userId: 'dev-user-alice',
         parentId: '20000000-0000-4000-8000-000000000003',
-        content: 'Around 10 hours during the last two weeks, mostly debugging edge cases in polymorphism.',
+        content: 'Around 8 to 10 hours during the last two weeks, mostly refining relational integrity constraints.',
     },
 
-    // --- Comments on COMP SCI 2000 (Review 5 & 6) ---
+    // --- Comments on COMP1040 (Review 5 & 6) ---
     {
         id: '20000000-0000-4000-8000-000000000005',
         reviewId: '10000000-0000-4000-8000-000000000005',
         userId: 'dev-user-charlie',
         parentId: null,
-        content: 'How was the final exam format? Was it mostly trace questions or coding?',
+        content: 'How was the final exam format? Was it mostly architecture scenarios or system modeling questions?',
     },
     {
         id: '20000000-0000-4000-8000-000000000006',
         reviewId: '10000000-0000-4000-8000-000000000005',
         userId: 'dev-user-bob',
         parentId: '20000000-0000-4000-8000-000000000005',
-        content: 'Around 60% writing and tracing assembly code, and 40% memory architecture theory.',
+        content: 'Around 60% evaluating architecture diagrams and quality attribute tactics, and 40% design patterns theory.',
     },
     {
         id: '20000000-0000-4000-8000-000000000007',
         reviewId: '10000000-0000-4000-8000-000000000006',
         userId: 'dev-user-admin',
         parentId: null,
-        content: 'Please remember to use the CS Club peer study sessions in Ingkarni Wardli if you need help with assembly!',
+        content: 'Please remember to use the CS Club peer study sessions in Ingkarni Wardli if you need help with system architecture!',
     },
 
-    // --- Comments on COMP SCI 2207 (Review 9) ---
+    // --- Comments on COMP2001 (Review 9) ---
     {
         id: '20000000-0000-4000-8000-000000000008',
         reviewId: '10000000-0000-4000-8000-000000000009',
         userId: 'dev-user-alice',
         parentId: null,
-        content: 'Can confirm, the group project was one of the most rewarding practicals at uni!',
+        content: 'Can confirm, the interpreter translation project was one of the most rewarding practicals at uni!',
     },
     {
         id: '20000000-0000-4000-8000-000000000009',
         reviewId: '10000000-0000-4000-8000-000000000009',
         userId: 'dev-user-fiona',
         parentId: '20000000-0000-4000-8000-000000000008',
-        content: 'Did your team use React or vanilla JavaScript for the frontend implementation?',
+        content: 'Did your team use Rust or Python/Java for the AST parser and runtime execution?',
     },
     {
         id: '20000000-0000-4000-8000-000000000010',
         reviewId: '10000000-0000-4000-8000-000000000009',
         userId: 'dev-user-diana',
         parentId: '20000000-0000-4000-8000-000000000009',
-        content: 'We used React with a Node Express backend and PostgreSQL database, which worked smoothly.',
+        content: 'We used TypeScript with an AST visitor pattern, which worked smoothly and was easy to test.',
     },
 
     // --- Comments on ACCT1001 (Review 13) ---
@@ -746,7 +746,7 @@ export const SEED_COMMENTS = [
 ];
 
 export const SEED_LIKES = [
-    // Likes for COMP SCI 1102 reviews
+    // Likes for COMP1003 reviews
     { userId: 'dev-user-bob', reviewId: '10000000-0000-4000-8000-000000000001' },
     { userId: 'dev-user-charlie', reviewId: '10000000-0000-4000-8000-000000000001' },
     { userId: 'dev-user-diana', reviewId: '10000000-0000-4000-8000-000000000001' },
@@ -757,7 +757,7 @@ export const SEED_LIKES = [
     { userId: 'dev-user-bob', reviewId: '10000000-0000-4000-8000-000000000003' },
     { userId: 'dev-user-george', reviewId: '10000000-0000-4000-8000-000000000004' },
 
-    // Likes for COMP SCI 2000 reviews
+    // Likes for COMP1040 reviews
     { userId: 'dev-user-diana', reviewId: '10000000-0000-4000-8000-000000000005' },
     { userId: 'dev-user-ethan', reviewId: '10000000-0000-4000-8000-000000000005' },
     { userId: 'dev-user-fiona', reviewId: '10000000-0000-4000-8000-000000000006' },
@@ -765,7 +765,7 @@ export const SEED_LIKES = [
     { userId: 'dev-user-bob', reviewId: '10000000-0000-4000-8000-000000000007' },
     { userId: 'dev-user-charlie', reviewId: '10000000-0000-4000-8000-000000000007' },
 
-    // Likes for COMP SCI 2207 reviews
+    // Likes for COMP2001 reviews
     { userId: 'dev-user-alice', reviewId: '10000000-0000-4000-8000-000000000009' },
     { userId: 'dev-user-bob', reviewId: '10000000-0000-4000-8000-000000000009' },
     { userId: 'dev-user-ethan', reviewId: '10000000-0000-4000-8000-000000000009' },
@@ -815,82 +815,82 @@ export const SEED_LIKES = [
 ];
 
 export const SEED_COURSE_UPDATE_VOTES = [
-    // --- 1. COMP SCI 1102: Consensus updated to Semester 1, 2025 (3 confirm, 1 dispute) ---
+    // --- 1. COMP1003: Consensus updated to Semester 1, 2025 (3 confirm, 1 dispute) ---
     {
         id: '30000000-0000-4000-8000-000000000001',
         userId: 'dev-user-alice',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         suggestedTerm: 'Semester 1, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000002',
         userId: 'dev-user-bob',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         suggestedTerm: 'Semester 1, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000003',
         userId: 'dev-user-charlie',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         suggestedTerm: 'Semester 1, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000004',
         userId: 'dev-user-diana',
-        courseCode: 'COMP SCI 1102',
+        courseCode: 'COMP1003',
         suggestedTerm: 'Semester 2, 2024',
     },
 
-    // --- 2. COMP SCI 2000: Consensus updated to Semester 2, 2025 (3 confirm, 1 dispute) ---
+    // --- 2. COMP1040: Consensus updated to Semester 2, 2025 (3 confirm, 1 dispute) ---
     {
         id: '30000000-0000-4000-8000-000000000005',
         userId: 'dev-user-bob',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         suggestedTerm: 'Semester 2, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000006',
         userId: 'dev-user-ethan',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         suggestedTerm: 'Semester 2, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000007',
         userId: 'dev-user-fiona',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         suggestedTerm: 'Semester 2, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000008',
         userId: 'dev-user-charlie',
-        courseCode: 'COMP SCI 2000',
+        courseCode: 'COMP1040',
         suggestedTerm: 'Semester 1, 2025',
     },
 
-    // --- 3. COMP SCI 2207: Consensus updated to Semester 1, 2025 (4 confirm) ---
+    // --- 3. COMP2001: Consensus updated to Semester 2, 2025 (4 confirm) ---
     {
         id: '30000000-0000-4000-8000-000000000009',
         userId: 'dev-user-diana',
-        courseCode: 'COMP SCI 2207',
-        suggestedTerm: 'Semester 1, 2025',
+        courseCode: 'COMP2001',
+        suggestedTerm: 'Semester 2, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000010',
         userId: 'dev-user-charlie',
-        courseCode: 'COMP SCI 2207',
-        suggestedTerm: 'Semester 1, 2025',
+        courseCode: 'COMP2001',
+        suggestedTerm: 'Semester 2, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000011',
         userId: 'dev-user-george',
-        courseCode: 'COMP SCI 2207',
-        suggestedTerm: 'Semester 1, 2025',
+        courseCode: 'COMP2001',
+        suggestedTerm: 'Semester 2, 2025',
     },
     {
         id: '30000000-0000-4000-8000-000000000012',
         userId: 'dev-user-alice',
-        courseCode: 'COMP SCI 2207',
-        suggestedTerm: 'Semester 1, 2025',
+        courseCode: 'COMP2001',
+        suggestedTerm: 'Semester 2, 2025',
     },
 
     // --- 4. ACCT1001: Consensus updated to Semester 2, 2024 (3 confirm, 1 dispute) ---

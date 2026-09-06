@@ -311,30 +311,31 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                                     label="Sort Feed"
                                     selectedKeys={[sortBy]}
                                     onSelectionChange={(keys) => setSortBy(Array.from(keys)[0] as string)}
-                                    className="w-28 sm:w-32 font-mono h-10"
+                                    className="w-36 sm:w-44 font-mono h-10 shrink-0"
                                     classNames={{
                                         trigger: "border-2 border-foreground bg-background rounded-none shadow-none h-10 min-h-10 text-foreground",
-                                        value: "text-foreground font-mono text-[10px] data-[placeholder=true]:text-grey dark:data-[placeholder=true]:text-grey",
+                                        value: "text-foreground font-mono text-xs data-[placeholder=true]:text-grey dark:data-[placeholder=true]:text-grey",
                                     }}
                                     popoverProps={{
                                         classNames: {
-                                            base: "rounded-none",
-                                            content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1"
+                                            base: "rounded-none w-auto min-w-[170px] sm:min-w-[190px]",
+                                            content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 w-auto min-w-[170px] sm:min-w-[190px]"
                                         }
                                     }}
                                     listboxProps={{
                                         itemClasses: {
-                                            base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs",
+                                            base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs whitespace-nowrap py-2",
+                                            title: "whitespace-nowrap font-mono text-xs",
                                         }
                                     }}
                                     aria-label="Sort reviews"
                                 >
-                                    <SelectItem key="recent" textValue="Most Recent" className="font-mono text-[10px] rounded-none">Most Recent</SelectItem>
-                                    <SelectItem key="rating-desc" textValue="Highest Rated" className="font-mono text-[10px] rounded-none">Highest Rated</SelectItem>
-                                    <SelectItem key="rating-asc" textValue="Lowest Rated" className="font-mono text-[10px] rounded-none">Lowest Rated</SelectItem>
+                                    <SelectItem key="recent" textValue="Most Recent" className="font-mono text-xs rounded-none whitespace-nowrap py-1.5">Most Recent</SelectItem>
+                                    <SelectItem key="rating-desc" textValue="Highest Rated" className="font-mono text-xs rounded-none whitespace-nowrap py-1.5">Highest Rated</SelectItem>
+                                    <SelectItem key="rating-asc" textValue="Lowest Rated" className="font-mono text-xs rounded-none whitespace-nowrap py-1.5">Lowest Rated</SelectItem>
                                 </Select>
                             ) : (
-                                <div className="h-10 w-32 bg-background border-2 border-foreground animate-pulse" />
+                                <div className="h-10 w-36 sm:w-44 bg-background border-2 border-foreground animate-pulse shrink-0" />
                             )}
 
                             <Button

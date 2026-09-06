@@ -186,6 +186,30 @@ export const FALLBACK_COURSES: CourseData[] = [
             { title: 'Practical Exam', weighting: '50%', hurdle: 'Threshold (50% Required)', learningOutcomes: '3,4,5,6' },
         ],
     },
+    {
+        code: 'COMP1040',
+        name: 'System Architecture',
+        description: 'In this course, students will understand the concepts behind various software systems architectures and how to access services provided by the architectures.',
+        terms: ['Semester 1'],
+        officialLink: '#',
+        subjectName: 'Computer Science',
+        prerequisites: 'N/A',
+        corequisites: 'N/A',
+        antirequisites: 'N/A',
+        apiId: '7db384fbf486',
+    },
+    {
+        code: 'COMP2001',
+        name: 'Language Models, Translation and Execution',
+        description: 'Prepares learners with the theoretical knowledge and concepts underpinning programming languages, including formal grammars, automata, parsing, and execution.',
+        terms: ['Semester 2'],
+        officialLink: '#',
+        subjectName: 'Computer Science',
+        prerequisites: 'N/A',
+        corequisites: 'N/A',
+        antirequisites: 'N/A',
+        apiId: 'ae46e29d7035',
+    },
 ];
 
 export function getSubjectAbbreviation(subjectName: string): string {

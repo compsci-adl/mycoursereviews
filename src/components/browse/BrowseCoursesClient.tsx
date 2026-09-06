@@ -318,18 +318,19 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                             }}
                             popoverProps={{
                                 classNames: {
-                                    base: "rounded-none",
-                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1"
+                                    base: "rounded-none min-w-[200px]",
+                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 min-w-[200px]"
                                 }
                             }}
                             listboxProps={{
                                 itemClasses: {
-                                    base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs",
+                                    base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs whitespace-nowrap py-1.5",
+                                    title: "whitespace-nowrap font-mono text-xs",
                                 }
                             }}
                         >
                             {ALL_TERMS.map((term) => (
-                                <SelectItem key={term} textValue={term} className="font-mono text-xs rounded-none">
+                                <SelectItem key={term} textValue={term} className="font-mono text-xs rounded-none whitespace-nowrap">
                                     {term}
                                 </SelectItem>
                             ))}
@@ -355,18 +356,19 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                             }}
                             popoverProps={{
                                 classNames: {
-                                    base: "rounded-none",
-                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1"
+                                    base: "rounded-none min-w-[200px]",
+                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 min-w-[200px]"
                                 }
                             }}
                             listboxProps={{
                                 itemClasses: {
-                                    base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs",
+                                    base: "rounded-none data-[hover=true]:bg-secondary data-[hover=true]:text-white font-mono text-xs whitespace-nowrap py-1.5",
+                                    title: "whitespace-nowrap font-mono text-xs",
                                 }
                             }}
                         >
                             {SORT_OPTIONS.map((opt) => (
-                                <SelectItem key={opt.key} textValue={opt.label} className="font-mono text-xs rounded-none">
+                                <SelectItem key={opt.key} textValue={opt.label} className="font-mono text-xs rounded-none whitespace-nowrap">
                                     {opt.label}
                                 </SelectItem>
                             ))}
