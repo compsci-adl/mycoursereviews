@@ -316,7 +316,7 @@ describe('CourseDetailClient Component', () => {
         // Auth modal should open with community interactions copy
         assert.ok(screen.getByText('Authentication Required'));
         assert.ok(screen.getByText(/participate in community interactions/i));
-        assert.ok(screen.getByText(/Community interactions require an active student session/i));
+        assert.ok(screen.getByText(/Community interactions require you to be logged in/i));
     });
 
     it('opens the AuthRequired modal with community interactions message when unauthenticated user disputes Last Major Update', async () => {
@@ -338,7 +338,7 @@ describe('CourseDetailClient Component', () => {
         // Auth modal should open with community interactions copy
         assert.ok(screen.getByText('Authentication Required'));
         assert.ok(screen.getByText(/participate in community interactions/i));
-        assert.ok(screen.getByText(/Community interactions require an active student session/i));
+        assert.ok(screen.getByText(/Community interactions require you to be logged in/i));
     });
 
     it('opens the AuthRequired modal with community interactions message when unauthenticated user likes a review', async () => {
@@ -360,7 +360,7 @@ describe('CourseDetailClient Component', () => {
         // Auth modal should open with community interactions copy
         assert.ok(screen.getByText('Authentication Required'));
         assert.ok(screen.getByText(/participate in community interactions/i));
-        assert.ok(screen.getByText(/Community interactions require an active student session/i));
+        assert.ok(screen.getByText(/Community interactions require you to be logged in/i));
     });
 
     it('opens the review submission modal directly if user is logged in', () => {
