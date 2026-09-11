@@ -25,7 +25,7 @@ export const ModerationWarningModal = ({ isOpen, onClose, message }: ModerationW
         >
             <ModalContent className="rounded-none">
                 <ModalHeader className="flex flex-col gap-1 border-b-3 border-foreground px-6 py-4">
-                    <span className="font-mixtape text-[10px] uppercase font-extrabold text-white bg-red border-2 border-foreground px-2 py-0.5 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-2deg] inline-block mb-1">
+                    <span className="font-mixtape text-2xs uppercase font-extrabold text-white bg-red border-2 border-foreground px-2 py-0.5 w-fit shadow-[2px_2px_0px_0px_#000] -rotate-2 inline-block mb-1">
                         Moderation Alert
                     </span>
                     <h2 className="font-mixtape uppercase text-xl font-extrabold tracking-tight">Submission Blocked</h2>
@@ -42,7 +42,7 @@ export const ModerationWarningModal = ({ isOpen, onClose, message }: ModerationW
                     <Button
                         radius="none"
                         onPress={onClose}
-                        className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-[1px] active:translate-y-[1px] transition-all h-10 px-8"
+                        className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-px active:translate-y-px transition-all h-10 px-8"
                     >
                         I Understand, Let Me Update It
                     </Button>

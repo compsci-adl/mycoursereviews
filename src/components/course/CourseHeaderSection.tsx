@@ -25,7 +25,7 @@ export const CourseHeaderSection = ({ course }: CourseHeaderSectionProps) => {
                     href="/courses"
                     size="sm"
                     variant="flat"
-                    className="font-mono uppercase font-black text-xs border-2 border-foreground bg-yellow text-black rounded-none shadow-[3px_3px_0px_0px_#000] rotate-[-2deg] hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="font-mono uppercase font-black text-xs border-2 border-foreground bg-yellow text-black rounded-none shadow-[3px_3px_0px_0px_#000] -rotate-2 hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                     &larr; Back to Courses
                 </Button>
@@ -33,7 +33,7 @@ export const CourseHeaderSection = ({ course }: CourseHeaderSectionProps) => {
 
             {/* Title Section */}
             <div>
-                <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-3 py-1 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-2deg] inline-block">
+                <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-3 py-1 w-fit shadow-[2px_2px_0px_0px_#000] -rotate-2 inline-block">
                     {course.code}
                 </span>
                 <h1 className="font-mixtape uppercase tracking-tighter text-3xl sm:text-5xl font-black mt-3 leading-none text-foreground">

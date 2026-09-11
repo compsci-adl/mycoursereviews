@@ -158,8 +158,8 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
     } : null;
 
     return (
-        <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet mx-[-1.5rem] sm:mx-[-2rem] mt-[-2rem] px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
-            <div className="max-w-screen-xl w-full flex flex-col gap-6">
+        <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet -mx-6 sm:-mx-8 -mt-8 px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
+            <div className="max-w-7xl w-full flex flex-col gap-6">
 
             {/* Top Navigation Row */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full pb-4">
@@ -168,7 +168,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                     href="/courses"
                     size="sm"
                     variant="flat"
-                    className="font-mono uppercase font-black text-xs border-2 border-foreground bg-yellow text-black rounded-none shadow-[3px_3px_0px_0px_#000] rotate-[-2deg] hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="font-mono uppercase font-black text-xs border-2 border-foreground bg-yellow text-black rounded-none shadow-[3px_3px_0px_0px_#000] -rotate-2 hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                     &larr; Back to Courses
                 </Button>
@@ -179,7 +179,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                         target="_blank"
                         rel="noopener noreferrer"
                         size="sm"
-                        className="font-mono uppercase font-black text-xs border-2 border-foreground bg-blue text-black rounded-none shadow-[3px_3px_0px_0px_#000] rotate-[2deg] hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-200 px-4 py-2 w-fit flex items-center gap-2 cursor-pointer"
+                        className="font-mono uppercase font-black text-xs border-2 border-foreground bg-blue text-black rounded-none shadow-[3px_3px_0px_0px_#000] rotate-2 hover:rotate-0 hover:scale-105 active:scale-95 transition-all duration-200 px-4 py-2 w-fit flex items-center gap-2 cursor-pointer"
                     >
                         View Official Course Outline &rarr;
                     </Button>
@@ -198,7 +198,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                         {/* Title, Terms & Tag Info */}
                         <div className="flex flex-col gap-4">
                             <div>
-                                <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-3 py-1 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-2deg] inline-block">
+                                <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-3 py-1 w-fit shadow-[2px_2px_0px_0px_#000] -rotate-2 inline-block">
                                     {course.code}
                                 </span>
                                 <h1 className="font-mixtape uppercase tracking-tighter text-3xl sm:text-5xl font-black mt-3 leading-none text-foreground">
@@ -299,7 +299,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                     {/* Reviews Grid Header */}
                     <div className="flex flex-col gap-4 border-b-4 border-foreground pb-4">
                         <div>
-                            <h1 className="font-mixtape uppercase tracking-tighter text-2xl sm:text-3xl font-extrabold bg-red text-white w-fit px-3 py-1 border-3 border-foreground shadow-[3px_3px_0px_0px_#000] rotate-[-1.5deg] select-none hover:rotate-[1deg] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer">Student Reviews</h1>
+                            <h1 className="font-mixtape uppercase tracking-tighter text-2xl sm:text-3xl font-extrabold bg-red text-white w-fit px-3 py-1 border-3 border-foreground shadow-[3px_3px_0px_0px_#000] rotate-[-1.5deg] select-none hover:rotate-1 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer">Student Reviews</h1>
                             <p className="font-mono text-xs text-foreground/80 mt-3 font-bold leading-relaxed">Read about actual class experiences and sub-scores.</p>
                         </div>
 
@@ -318,8 +318,8 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                                     }}
                                     popoverProps={{
                                         classNames: {
-                                            base: "rounded-none w-auto min-w-[170px] sm:min-w-[190px]",
-                                            content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 w-auto min-w-[170px] sm:min-w-[190px]"
+                                            base: "rounded-none w-auto min-w-42.5 sm:min-w-47.5",
+                                            content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 w-auto min-w-42.5 sm:min-w-47.5"
                                         }
                                     }}
                                     listboxProps={{
@@ -351,7 +351,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                     </div>
 
                     {/* Scrollable Reviews Feed Container */}
-                    <div className="flex flex-col gap-6 max-h-[850px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin' }}>
+                    <div className="flex flex-col gap-6 max-h-212.5 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin' }}>
                         {sortedReviews.length === 0 ? (
                             <div className="text-center py-12 bg-background border-4 border-dashed border-foreground rounded-none">
                                 <FaGraduationCap className="text-foreground text-4xl mx-auto mb-3" />

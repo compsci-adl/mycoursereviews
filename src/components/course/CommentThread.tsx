@@ -97,7 +97,7 @@ export const CommentThread = ({
             <div className={clsx('flex flex-col gap-3 mt-3', depth > 0 && 'border-l-3 border-foreground pl-4 sm:pl-6')}>
                 {filtered.map((comment) => (
                     <div key={comment.id} className="text-xs flex flex-col gap-1.5 bg-background p-3 rounded-none border-2 border-foreground shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff]">
-                        <div className="flex justify-between items-center text-foreground/60 font-mono text-[10px] uppercase font-black">
+                        <div className="flex justify-between items-center text-foreground/60 font-mono text-2xs uppercase font-black">
                             <span className="text-red font-extrabold">{comment.userName}</span>
                             <span>{formatLocalDate(comment.createdAt)}</span>
                         </div>
@@ -149,7 +149,7 @@ export const CommentThread = ({
                                         setActiveReplyId(comment.id);
                                         setReplyContent('');
                                     }}
-                                    className="flex items-center gap-1 hover:text-blue transition-colors font-mono uppercase text-[9px] font-black cursor-pointer"
+                                    className="flex items-center gap-1 hover:text-blue transition-colors font-mono uppercase text-3xs font-black cursor-pointer"
                                 >
                                     <FaReply className="w-2.5 h-2.5" />
                                     <span>Reply</span>
@@ -163,7 +163,7 @@ export const CommentThread = ({
                                             setEditingCommentId(comment.id);
                                             setEditingContent(comment.content);
                                         }}
-                                        className="flex items-center gap-1 hover:text-yellow transition-colors font-mono uppercase text-[9px] font-black cursor-pointer"
+                                        className="flex items-center gap-1 hover:text-yellow transition-colors font-mono uppercase text-3xs font-black cursor-pointer"
                                         title="Edit Comment"
                                         aria-label="Edit Comment"
                                     >
@@ -172,7 +172,7 @@ export const CommentThread = ({
                                     </button>
                                     <button
                                         onClick={() => handleDeleteClick(comment.id)}
-                                        className="flex items-center gap-1 hover:text-red transition-colors font-mono uppercase text-[9px] font-black cursor-pointer"
+                                        className="flex items-center gap-1 hover:text-red transition-colors font-mono uppercase text-3xs font-black cursor-pointer"
                                         title="Delete Comment"
                                         aria-label="Delete Comment"
                                     >

@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
                     <div className="relative flex flex-col min-h-screen">
                         <Header />
-                        <main className="flex-grow mx-auto w-full px-6 sm:px-8 py-8">
+                        <main className="grow mx-auto w-full px-6 sm:px-8 py-8">
                             {children}
                         </main>
                         <Footer />

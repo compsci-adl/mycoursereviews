@@ -107,7 +107,7 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
             active = false;
             if (timerId) clearTimeout(timerId);
         };
-    }, [courses]);
+    }, [courses, coursesState.length]);
 
 
     // Derive sorted unique subject list — prefer subjectName (full name from API) over code abbreviation
@@ -219,12 +219,12 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
     };
 
     return (
-        <div className="flex flex-col gap-8 bg-grid-sheet mx-[-1.5rem] sm:mx-[-2rem] mt-[-2rem] px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-[calc(100vh-200px)] items-center">
-            <div className="max-w-screen-xl w-full flex flex-col gap-8">
+        <div className="flex flex-col gap-8 bg-grid-sheet -mx-6 sm:-mx-8 -mt-8 px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-[calc(100vh-200px)] items-center">
+            <div className="max-w-7xl w-full flex flex-col gap-8">
 
             {/* Page Header */}
             <div>
-                <h1 className="font-mixtape uppercase tracking-tighter text-3xl sm:text-4xl font-extrabold bg-red text-white w-fit px-4 py-1.5 border-3 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] rotate-[-1deg] select-none hover:rotate-[1deg] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer">
+                <h1 className="font-mixtape uppercase tracking-tighter text-3xl sm:text-4xl font-extrabold bg-red text-white w-fit px-4 py-1.5 border-3 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] -rotate-1 select-none hover:rotate-1 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer">
                     Browse Courses
                 </h1>
                 <p className="font-mono text-base text-foreground/80 mt-3 font-black rotate-[0.5deg]">
@@ -318,8 +318,8 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                             }}
                             popoverProps={{
                                 classNames: {
-                                    base: "rounded-none min-w-[200px]",
-                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 min-w-[200px]"
+                                    base: "rounded-none min-w-50",
+                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 min-w-50"
                                 }
                             }}
                             listboxProps={{
@@ -356,8 +356,8 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                             }}
                             popoverProps={{
                                 classNames: {
-                                    base: "rounded-none min-w-[200px]",
-                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 min-w-[200px]"
+                                    base: "rounded-none min-w-50",
+                                    content: "rounded-none border-3 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] p-1 min-w-50"
                                 }
                             }}
                             listboxProps={{
@@ -471,7 +471,7 @@ export const BrowseCoursesClient = ({ courses }: BrowseCoursesClientProps) => {
                     </div>
 
                     {/* Infinite scroll sentinel */}
-                    <div ref={sentinelRef} id="infinite-scroll-sentinel" className="flex justify-center py-8 w-full min-h-[60px]">
+                    <div ref={sentinelRef} id="infinite-scroll-sentinel" className="flex justify-center py-8 w-full min-h-15">
                         {hasMore && (
                             <div className="flex items-center gap-2 text-foreground font-mono text-sm font-black uppercase bg-yellow border-3 border-foreground px-4 py-2 shadow-[4px_4px_0px_0px_#000] animate-pulse">
                                 <Spinner size="sm" color="current" />

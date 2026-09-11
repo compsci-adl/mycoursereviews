@@ -80,23 +80,23 @@ export const MyCommentsFeed = ({ comments, courseMap, onEditSave, onDeleteClick 
                                 
                                 {/* Header Context */}
                                 <div className="flex flex-wrap items-center gap-2 border-b-2 border-foreground pb-2 text-xs font-mono uppercase font-black">
-                                    <span className="text-[10px] text-black bg-blue border border-foreground px-2 py-0.5 shadow-[1.5px_1.5px_0px_0px_#000] rotate-[-1.5deg] leading-none">
+                                    <span className="text-2xs text-black bg-blue border border-foreground px-2 py-0.5 shadow-[1.5px_1.5px_0px_0px_#000] rotate-[-1.5deg] leading-none">
                                         {comment.courseCode}
                                     </span>
                                     <Link
                                         href={`/courses/${encodeURIComponent(comment.courseCode)}`}
-                                        className="text-foreground/50 hover:text-primary underline flex items-center gap-1 text-[11px]"
+                                        className="text-foreground/50 hover:text-primary underline flex items-center gap-1 text-xs"
                                     >
-                                        {courseName} <FaExternalLinkAlt className="text-[8px]" />
+                                        {courseName} <FaExternalLinkAlt className="text-3xs" />
                                     </Link>
                                     <span className="text-foreground/30 font-light">|</span>
-                                    <span className="text-red normal-case font-extrabold tracking-tight truncate max-w-[180px] sm:max-w-[300px]">
+                                    <span className="text-red normal-case font-extrabold tracking-tight truncate max-w-45 sm:max-w-75">
                                         On review: "{comment.reviewTitle}"
                                     </span>
                                 </div>
 
                                 {/* Date */}
-                                <div className="text-[9px] font-mono text-foreground/50 font-black uppercase">
+                                <div className="text-3xs font-mono text-foreground/50 font-black uppercase">
                                     Posted on: {formatLocalDate(comment.createdAt)}
                                 </div>
 

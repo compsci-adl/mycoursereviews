@@ -43,7 +43,7 @@ export const RatingSliders = ({
                         value: "text-foreground font-mono font-black text-xs",
                     }}
                 />
-                <span className="text-[10px] text-foreground/60 text-right font-mono font-black uppercase tracking-wider mt-1">
+                <span className="text-2xs text-foreground/60 text-right font-mono font-black uppercase tracking-wider mt-1">
                     {difficultyScore >= 4.5 ? 'Extreme' : difficultyScore >= 3.5 ? 'Hard' : difficultyScore >= 2.5 ? 'Medium' : difficultyScore >= 1.5 ? 'Easy' : 'Trivial'}
                 </span>
             </div>
@@ -69,7 +69,7 @@ export const RatingSliders = ({
                         value: "text-foreground font-mono font-black text-xs",
                     }}
                 />
-                <span className="text-[10px] text-foreground/60 text-right font-mono font-black uppercase tracking-wider mt-1">
+                <span className="text-2xs text-foreground/60 text-right font-mono font-black uppercase tracking-wider mt-1">
                     {usefulnessScore >= 4.5 ? 'Crucial' : usefulnessScore >= 3.5 ? 'Very Useful' : usefulnessScore >= 2.5 ? 'Useful' : usefulnessScore >= 1.5 ? 'Slightly Useful' : 'Useless'}
                 </span>
             </div>
@@ -95,7 +95,7 @@ export const RatingSliders = ({
                         value: "text-foreground font-mono font-black text-xs",
                     }}
                 />
-                <span className="text-[10px] text-foreground/60 text-right font-mono font-black uppercase tracking-wider mt-1">
+                <span className="text-2xs text-foreground/60 text-right font-mono font-black uppercase tracking-wider mt-1">
                     {enjoymentScore >= 4.5 ? 'Love it' : enjoymentScore >= 3.5 ? 'Great' : enjoymentScore >= 2.5 ? 'Fun' : enjoymentScore >= 1.5 ? 'Okay' : 'Hated it'}
                 </span>
             </div>

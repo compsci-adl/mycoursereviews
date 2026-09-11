@@ -84,7 +84,7 @@ export const CourseOverviewSection = ({ course }: CourseOverviewSectionProps) =>
                         {/* Antirequisites */}
                         <div className="bg-background border-2 border-foreground rounded-none p-3.5 shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] flex flex-col justify-between hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform">
                             <div>
-                                <span className="bg-red text-white border-2 border-foreground px-2 py-0.5 font-mono font-black text-2xs uppercase shadow-[1px_1px_0px_0px_#000] rotate-[-1deg] inline-block mb-2.5 select-none">
+                                <span className="bg-red text-white border-2 border-foreground px-2 py-0.5 font-mono font-black text-2xs uppercase shadow-[1px_1px_0px_0px_#000] -rotate-1 inline-block mb-2.5 select-none">
                                     Antirequisites
                                 </span>
                                 <p
@@ -113,7 +113,7 @@ export const CourseOverviewSection = ({ course }: CourseOverviewSectionProps) =>
                                 key={lo.outcomeIndex}
                                 className="flex gap-3.5 items-start bg-background border-2 border-foreground p-3.5 shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] rounded-none hover:translate-x-0.5 transition-transform"
                             >
-                                <div className="bg-blue text-white border-2 border-foreground w-6 h-6 flex items-center justify-center font-mono font-black text-2xs shrink-0 shadow-[1px_1px_0px_0px_#000] select-none rotate-[-2deg]">
+                                <div className="bg-blue text-white border-2 border-foreground w-6 h-6 flex items-center justify-center font-mono font-black text-2xs shrink-0 shadow-[1px_1px_0px_0px_#000] select-none -rotate-2">
                                     {lo.outcomeIndex}
                                 </div>
                                 <p className="font-mono text-xs text-foreground/85 leading-relaxed pt-0.5">

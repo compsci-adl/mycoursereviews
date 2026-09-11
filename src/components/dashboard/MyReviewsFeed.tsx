@@ -49,14 +49,14 @@ export const MyReviewsFeed = ({ reviews, courseMap, onEditClick, onDeleteClick }
                                 <div className="flex flex-col sm:flex-row justify-between items-start gap-3 border-b-2 border-foreground pb-3">
                                     <div className="flex flex-col gap-1.5">
                                         <div className="flex flex-wrap items-center gap-2">
-                                            <span className="font-mono text-[10px] uppercase font-extrabold text-black bg-yellow border border-foreground px-2 py-0.5 shadow-[1.5px_1.5px_0px_0px_#000] rotate-[-1.5deg] leading-none">
+                                            <span className="font-mono text-2xs uppercase font-extrabold text-black bg-yellow border border-foreground px-2 py-0.5 shadow-[1.5px_1.5px_0px_0px_#000] rotate-[-1.5deg] leading-none">
                                                 {review.courseCode}
                                             </span>
                                             <Link
                                                 href={`/courses/${encodeURIComponent(review.courseCode)}`}
                                                 className="font-mixtape text-xs font-black uppercase text-foreground/50 hover:text-primary underline flex items-center gap-1"
                                             >
-                                                {courseName} <FaExternalLinkAlt className="text-[8px]" />
+                                                {courseName} <FaExternalLinkAlt className="text-3xs" />
                                             </Link>
                                         </div>
                                         <h3 className="font-mixtape uppercase tracking-tight text-lg font-black text-foreground mt-1">{review.title}</h3>
@@ -95,7 +95,7 @@ export const MyReviewsFeed = ({ reviews, courseMap, onEditClick, onDeleteClick }
                                     
                                     {/* Difficulty */}
                                     <div className="flex flex-col gap-1">
-                                        <div className="flex justify-between font-black text-[10px]">
+                                        <div className="flex justify-between font-black text-2xs">
                                             <span>DIFFICULTY</span>
                                             <span>{review.difficultyScore.toFixed(1)} / 5</span>
                                         </div>
@@ -124,7 +124,7 @@ export const MyReviewsFeed = ({ reviews, courseMap, onEditClick, onDeleteClick }
 
                                     {/* Usefulness */}
                                     <div className="flex flex-col gap-1">
-                                        <div className="flex justify-between font-black text-[10px]">
+                                        <div className="flex justify-between font-black text-2xs">
                                             <span>USEFULNESS</span>
                                             <span>{review.usefulnessScore.toFixed(1)} / 5</span>
                                         </div>
@@ -147,7 +147,7 @@ export const MyReviewsFeed = ({ reviews, courseMap, onEditClick, onDeleteClick }
 
                                     {/* Enjoyment */}
                                     <div className="flex flex-col gap-1">
-                                        <div className="flex justify-between font-black text-[10px]">
+                                        <div className="flex justify-between font-black text-2xs">
                                             <span>ENJOYMENT</span>
                                             <span>{review.enjoymentScore.toFixed(1)} / 5</span>
                                         </div>

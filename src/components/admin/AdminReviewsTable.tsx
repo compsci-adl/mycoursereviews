@@ -73,7 +73,7 @@ export const AdminReviewsTable = ({ reviews, onDeleteTrigger }: AdminReviewsTabl
                         {filteredReviews.map((review) => (
                             <TableRow key={review.id} className="border-b border-dashed border-foreground/35 hover:bg-foreground/5 transition-colors">
                                 <TableCell className="font-extrabold text-foreground text-xs">
-                                    <span className="font-mixtape text-black bg-yellow border border-foreground px-1.5 py-0.5 w-fit shadow-[1px_1px_0px_0px_#000] rotate-[-1deg] text-[10px] font-bold block select-none">
+                                    <span className="font-mixtape text-black bg-yellow border border-foreground px-1.5 py-0.5 w-fit shadow-[1px_1px_0px_0px_#000] -rotate-1 text-2xs font-bold block select-none">
                                         {review.courseCode}
                                     </span>
                                 </TableCell>
@@ -83,7 +83,7 @@ export const AdminReviewsTable = ({ reviews, onDeleteTrigger }: AdminReviewsTabl
                                 <TableCell className="text-2xs font-extrabold">
                                     {review.reviewerName}
                                 </TableCell>
-                                <TableCell className="text-2xs font-black max-w-[150px] truncate">
+                                <TableCell className="text-2xs font-black max-w-37.5 truncate">
                                     {review.title}
                                 </TableCell>
                                 <TableCell className="text-2xs max-w-sm font-semibold">
@@ -93,11 +93,11 @@ export const AdminReviewsTable = ({ reviews, onDeleteTrigger }: AdminReviewsTabl
                                 </TableCell>
                                 <TableCell className="text-3xs font-extrabold">
                                     {review.isAnonymous ? (
-                                        <span className="text-yellow bg-black border border-foreground px-1.5 py-0.5 font-extrabold text-[9px] uppercase select-none">
+                                        <span className="text-yellow bg-black border border-foreground px-1.5 py-0.5 font-extrabold text-3xs uppercase select-none">
                                             ANONYMOUS
                                         </span>
                                     ) : (
-                                        <span className="text-blue bg-background border-2 border-foreground px-1.5 py-0.5 font-extrabold text-[9px] uppercase shadow-[1px_1px_0px_0px_#000] select-none">
+                                        <span className="text-blue bg-background border-2 border-foreground px-1.5 py-0.5 font-extrabold text-3xs uppercase shadow-[1px_1px_0px_0px_#000] select-none">
                                             PUBLIC
                                         </span>
                                     )}

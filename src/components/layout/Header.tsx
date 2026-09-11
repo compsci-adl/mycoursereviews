@@ -104,7 +104,7 @@ export const Header = () => {
                                             : item.href === '/'
                                                 ? 'bg-blue text-white shadow-[3px_3px_0px_0px_#000]'
                                                 : 'bg-foreground text-background shadow-[3px_3px_0px_0px_#000]'
-                                        : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px]'
+                                        : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px'
                                 )}
                             >
                                 {item.href === '/courses' && <FaBookOpen className="text-sm shrink-0" />}
@@ -121,7 +121,7 @@ export const Header = () => {
                                 'font-mono tracking-wide text-xs uppercase font-extrabold px-3 py-1.5 border-2 border-foreground transition-all duration-200 rounded-none flex items-center gap-2',
                                 isActive('/my-reviews')
                                     ? 'bg-red text-white shadow-[3px_3px_0px_0px_#000]' 
-                                    : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px]'
+                                    : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px'
                             )}
                         >
                             <FaClipboardList className="text-sm shrink-0" />
@@ -260,7 +260,7 @@ export const Header = () => {
                                 setIsMenuOpen(false);
                                 setIsGuideOpen(true);
                             }}
-                            className="w-full font-mono tracking-wide text-xs uppercase font-black px-4 py-3 border-2 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200 rounded-none flex items-center justify-center gap-2 cursor-pointer"
+                            className="w-full font-mono tracking-wide text-xs uppercase font-black px-4 py-3 border-2 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px transition-all duration-200 rounded-none flex items-center justify-center gap-2 cursor-pointer"
                         >
                             <FaQuestion className="text-sm shrink-0" />
                             <span>How to Use</span>
@@ -274,7 +274,7 @@ export const Header = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => setIsMenuOpen(false)}
-                            className="w-full font-mono tracking-wide text-xs uppercase font-black px-4 py-3 border-2 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200 rounded-none flex items-center justify-center gap-2"
+                            className="w-full font-mono tracking-wide text-xs uppercase font-black px-4 py-3 border-2 border-foreground bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px transition-all duration-200 rounded-none flex items-center justify-center gap-2"
                         >
                             <FaCommentAlt className="text-sm shrink-0" />
                             <span>Feedback</span>
@@ -293,7 +293,7 @@ export const Header = () => {
                                         'font-mono tracking-wide text-xs uppercase font-black px-4 py-3 border-2 border-foreground transition-all duration-200 rounded-none block text-center',
                                         active
                                             ? 'bg-foreground text-background shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff]'
-                                            : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px]'
+                                            : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px'
                                     )}
                                 >
                                     {item.label}
@@ -310,7 +310,7 @@ export const Header = () => {
                                     'font-mono tracking-wide text-xs uppercase font-black px-4 py-3 border-2 border-foreground transition-all duration-200 rounded-none block text-center',
                                     isActive('/my-reviews')
                                         ? 'bg-foreground text-background shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff]'
-                                        : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px]'
+                                        : 'bg-background text-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:bg-yellow hover:text-black hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px'
                                 )}
                             >
                                 My Reviews

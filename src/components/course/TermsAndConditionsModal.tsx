@@ -23,7 +23,7 @@ export const TermsAndConditionsModal = ({ isOpen, onClose }: TermsAndConditionsM
                 <ModalHeader className="font-mixtape uppercase tracking-tighter text-xl border-b-3 border-foreground px-6 py-4">
                     Terms & Conditions
                 </ModalHeader>
-                <ModalBody className="p-6 font-mono text-sm leading-relaxed max-h-[400px] overflow-y-auto">
+                <ModalBody className="p-6 font-mono text-sm leading-relaxed max-h-100 overflow-y-auto">
                     <p className="font-bold border-l-3 border-primary pl-3 text-foreground py-0.5 mb-3">
                         By using our services, submitting ratings, or registering, you agree to the following terms of use:
                     </p>

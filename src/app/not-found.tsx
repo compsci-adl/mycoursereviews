@@ -5,7 +5,7 @@ export default function NotFound() {
     return (
         <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 py-16 text-center">
             <div className="border-4 border-foreground p-8 bg-background shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#fff] max-w-lg w-full flex flex-col items-center gap-6 font-mono rotate-[1.5deg] hover:rotate-0 transition-transform duration-200">
-                <div className="w-16 h-16 bg-yellow text-black border-3 border-foreground rounded-none flex items-center justify-center shadow-[3px_3px_0px_0px_#000] rotate-[-4deg]">
+                <div className="w-16 h-16 bg-yellow text-black border-3 border-foreground rounded-none flex items-center justify-center shadow-[3px_3px_0px_0px_#000] -rotate-3">
                     <FaExclamationTriangle className="text-2xl animate-warning-scale" />
                 </div>
                 

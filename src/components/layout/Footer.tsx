@@ -75,7 +75,7 @@ export const Footer = () => {
 
     return (
         <footer className="w-full mt-12 bg-background border-t-4 border-foreground py-8">
-            <div className="max-w-screen-xl mx-auto px-6 sm:px-8 grid grid-cols-2 items-center gap-6 mobile:grid-cols-1 mobile:justify-items-center mobile:gap-8">
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-2 items-center gap-6 mobile:grid-cols-1 mobile:justify-items-center mobile:gap-8">
                 
                 {/* Logo and Brand Title */}
                 <div className="flex items-center gap-3">

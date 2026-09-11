@@ -55,30 +55,30 @@ export const HowToUseModal = ({ isOpen, onClose }: HowToUseModalProps) => {
                                 <div className="absolute top-2 left-2 text-3xs opacity-40 font-bold">PREVIEW_DECK</div>
                                 {guideStep === 0 && (
                                     <div className="flex flex-col items-center gap-2">
-                                        <div className="bg-yellow text-black border-2 border-foreground font-black px-3 py-1 text-sm shadow-[2px_2px_0px_0px_#000] rotate-[-2deg]">
+                                        <div className="bg-yellow text-black border-2 border-foreground font-black px-3 py-1 text-sm shadow-[2px_2px_0px_0px_#000] -rotate-2">
                                             MYCOURSEREVIEWS
                                         </div>
-                                        <p className="text-[10px] uppercase font-bold text-foreground/60 max-w-[200px] mt-1 leading-tight">
+                                        <p className="text-2xs uppercase font-bold text-foreground/60 max-w-50 mt-1 leading-tight">
                                             BY STUDENTS, FOR STUDENTS AT ADELAIDE UNI
                                         </p>
                                     </div>
                                 )}
                                 {guideStep === 1 && (
                                     <div className="flex flex-col items-center gap-2">
-                                        <div className="bg-red text-white border-2 border-foreground font-black px-3 py-1 text-sm shadow-[2px_2px_0px_0px_#000] rotate-[3deg]">
+                                        <div className="bg-red text-white border-2 border-foreground font-black px-3 py-1 text-sm shadow-[2px_2px_0px_0px_#000] rotate-3">
                                             RATE COURSE
                                         </div>
-                                        <p className="text-[10px] uppercase font-bold text-foreground/60 max-w-[200px] mt-1 leading-tight">
+                                        <p className="text-2xs uppercase font-bold text-foreground/60 max-w-50 mt-1 leading-tight">
                                             DIFFICULTY, USEFULNESS, & ENJOYMENT EQ BARS
                                         </p>
                                     </div>
                                 )}
                                 {guideStep === 2 && (
                                     <div className="flex flex-col items-center gap-2">
-                                        <div className="bg-blue text-white border-2 border-foreground font-black px-3 py-1 text-sm shadow-[2px_2px_0px_0px_#000] rotate-[-3deg]">
+                                        <div className="bg-blue text-white border-2 border-foreground font-black px-3 py-1 text-sm shadow-[2px_2px_0px_0px_#000] -rotate-3">
                                             DISCUSS
                                         </div>
-                                        <p className="text-[10px] uppercase font-bold text-foreground/60 max-w-[200px] mt-1 leading-tight">
+                                        <p className="text-2xs uppercase font-bold text-foreground/60 max-w-50 mt-1 leading-tight">
                                             LEAVE REVIEWS & THREADED DEBATES IN-PLACE
                                         </p>
                                     </div>
@@ -86,7 +86,7 @@ export const HowToUseModal = ({ isOpen, onClose }: HowToUseModalProps) => {
                             </div>
 
                             {/* Step text content */}
-                            <div className="text-center mt-2 min-h-[64px]">
+                            <div className="text-center mt-2 min-h-16">
                                 {guideStep === 0 && (
                                     <>
                                         <h3 className="font-extrabold text-sm uppercase mb-1">1. Explore Outline Ratings</h3>
@@ -105,7 +105,7 @@ export const HowToUseModal = ({ isOpen, onClose }: HowToUseModalProps) => {
                                 )}
                                 {guideStep === 2 && (
                                     <>
-                                        <h3 className="font-extrabold text-sm uppercase mb-1">3. Threaded Zine Discussions</h3>
+                                        <h3 className="font-extrabold text-sm uppercase mb-1">3. Threaded Discussions</h3>
                                         <p className="text-2xs text-foreground/75 leading-relaxed">
                                             Share anonymous insights, reply to student queries, or start in-place threaded debates on course ratings.
                                         </p>

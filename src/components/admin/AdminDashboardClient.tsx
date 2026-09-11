@@ -100,7 +100,7 @@ export const AdminDashboardClient = ({ reviews, comments, stats }: AdminDashboar
             
             {/* Page Header */}
             <div className="font-mono">
-                <span className="font-mixtape text-[10px] uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-3 py-1 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-1.5deg] inline-block mb-3 select-none">
+                <span className="font-mixtape text-2xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-3 py-1 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-1.5deg] inline-block mb-3 select-none">
                     CS Club Admin
                 </span>
                 <h1 className="font-mixtape uppercase tracking-tighter text-3xl sm:text-5xl font-black mt-2 leading-none text-foreground">
@@ -115,10 +115,10 @@ export const AdminDashboardClient = ({ reviews, comments, stats }: AdminDashboar
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono">
                 
                 {/* Total Reviews Card */}
-                <Card className="bg-yellow border-3 border-foreground rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] rotate-[-1deg] hover:rotate-0 transition-transform duration-200">
+                <Card className="bg-yellow border-3 border-foreground rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] -rotate-1 hover:rotate-0 transition-transform duration-200">
                     <CardBody className="p-5 flex items-center justify-between flex-row gap-4">
                         <div className="flex flex-col gap-0.5 text-black">
-                            <span className="text-[10px] font-black uppercase tracking-wider opacity-75">Total Reviews</span>
+                            <span className="text-2xs font-black uppercase tracking-wider opacity-75">Total Reviews</span>
                             <span className="text-3xl font-mixtape font-black uppercase mt-1">{stats.totalReviews}</span>
                         </div>
                         <div className="p-3 bg-black/10 text-black border border-foreground/20 rounded-none">
@@ -128,10 +128,10 @@ export const AdminDashboardClient = ({ reviews, comments, stats }: AdminDashboar
                 </Card>
 
                 {/* Total Comments Card */}
-                <Card className="bg-blue border-3 border-foreground rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] rotate-[1deg] hover:rotate-0 transition-transform duration-200">
+                <Card className="bg-blue border-3 border-foreground rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] rotate-1 hover:rotate-0 transition-transform duration-200">
                     <CardBody className="p-5 flex items-center justify-between flex-row gap-4">
                         <div className="flex flex-col gap-0.5 text-white">
-                            <span className="text-[10px] font-black uppercase tracking-wider opacity-75">Comments Feed</span>
+                            <span className="text-2xs font-black uppercase tracking-wider opacity-75">Comments Feed</span>
                             <span className="text-3xl font-mixtape font-black uppercase mt-1">{stats.totalComments}</span>
                         </div>
                         <div className="p-3 bg-black/15 text-white border border-foreground/20 rounded-none">
@@ -144,7 +144,7 @@ export const AdminDashboardClient = ({ reviews, comments, stats }: AdminDashboar
                 <Card className="bg-red border-3 border-foreground rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] rotate-[-0.5deg] hover:rotate-0 transition-transform duration-200">
                     <CardBody className="p-5 flex items-center justify-between flex-row gap-4">
                         <div className="flex flex-col gap-0.5 text-white">
-                            <span className="text-[10px] font-black uppercase tracking-wider opacity-75">Review Likes</span>
+                            <span className="text-2xs font-black uppercase tracking-wider opacity-75">Review Likes</span>
                             <span className="text-3xl font-mixtape font-black uppercase mt-1">{stats.totalLikes}</span>
                         </div>
                         <div className="p-3 bg-black/15 text-white border border-foreground/20 rounded-none">
@@ -157,7 +157,7 @@ export const AdminDashboardClient = ({ reviews, comments, stats }: AdminDashboar
                 <Card className="bg-purple border-3 border-foreground rounded-none shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] rotate-[0.5deg] hover:rotate-0 transition-transform duration-200">
                     <CardBody className="p-5 flex items-center justify-between flex-row gap-4">
                         <div className="flex flex-col gap-0.5 text-white">
-                            <span className="text-[10px] font-black uppercase tracking-wider opacity-75">Active Courses</span>
+                            <span className="text-2xs font-black uppercase tracking-wider opacity-75">Active Courses</span>
                             <span className="text-3xl font-mixtape font-black uppercase mt-1">{stats.totalCourses}</span>
                         </div>
                         <div className="p-3 bg-black/15 text-white border border-foreground/20 rounded-none">

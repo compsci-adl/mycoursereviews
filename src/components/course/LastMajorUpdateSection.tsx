@@ -55,7 +55,7 @@ export const LastMajorUpdateSection = ({
                     <h2 className="font-mixtape text-xs uppercase font-extrabold text-foreground/50 tracking-wider">Last Major Update</h2>
                     <p className="font-mono font-black text-sm text-foreground">{voteData.consensusTerm}</p>
                 </div>
-                <div className="flex items-center gap-1.5 font-mono text-[10px] text-foreground/50 font-black uppercase">
+                <div className="flex items-center gap-1.5 font-mono text-2xs text-foreground/50 font-black uppercase">
                     {voteData.totalVotes > 0 && (
                         <span>{voteData.totalVotes} {voteData.totalVotes === 1 ? 'vote' : 'votes'}</span>
                     )}
@@ -77,7 +77,7 @@ export const LastMajorUpdateSection = ({
                     )}
                     title="Confirm — this term looks correct"
                 >
-                    <FaThumbsUp className="text-[10px]" />
+                    <FaThumbsUp className="text-2xs" />
                     <span>Correct</span>
                     {voteData.confirmCount > 0 && (
                         <span className="bg-foreground/15 px-1 rounded-none">{voteData.confirmCount}</span>
@@ -101,7 +101,7 @@ export const LastMajorUpdateSection = ({
                     )}
                     title="Dispute — suggest the correct term"
                 >
-                    <FaThumbsDown className="text-[10px]" />
+                    <FaThumbsDown className="text-2xs" />
                     <span>Outdated</span>
                     {voteData.disputeCount > 0 && (
                         <span className="bg-foreground/15 px-1 rounded-none">{voteData.disputeCount}</span>
@@ -110,7 +110,7 @@ export const LastMajorUpdateSection = ({
 
                 {/* User's current dispute shown as chip */}
                 {voteData.currentUserVote && voteData.currentUserVote !== voteData.consensusTerm && !showDisputeSelector && (
-                    <span className="font-mono text-[10px] font-black text-red uppercase tracking-wider">
+                    <span className="font-mono text-2xs font-black text-red uppercase tracking-wider">
                         You suggested: {voteData.currentUserVote}
                     </span>
                 )}
@@ -119,7 +119,7 @@ export const LastMajorUpdateSection = ({
             {/* Inline dispute term selector */}
             {showDisputeSelector && (
                 <div className="flex flex-wrap items-center gap-2 p-3 bg-foreground/5 border-2 border-dashed border-foreground/40 rounded-none mt-1">
-                    <span className="font-mono text-[10px] font-black uppercase text-foreground/60 w-full">Select the correct last major update term:</span>
+                    <span className="font-mono text-2xs font-black uppercase text-foreground/60 w-full">Select the correct last major update term:</span>
                     {mounted && (() => {
                         const availableTerms = UPDATE_TERM_OPTIONS.filter(t => t !== voteData.consensusTerm);
                         const validSelectedKeys = selectedDisputeTerm && availableTerms.includes(selectedDisputeTerm) ? [selectedDisputeTerm] : [];
@@ -133,7 +133,7 @@ export const LastMajorUpdateSection = ({
                                 className="font-mono flex-1 min-w-45 h-10"
                                 classNames={{
                                     trigger: "border-2 border-foreground bg-background rounded-none shadow-none h-10 min-h-10 text-foreground",
-                                    value: "text-foreground font-mono text-[10px] data-[placeholder=true]:text-grey",
+                                    value: "text-foreground font-mono text-2xs data-[placeholder=true]:text-grey",
                                 }}
                                 popoverProps={{
                                     classNames: {

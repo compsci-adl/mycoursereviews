@@ -14,6 +14,7 @@ export default {
       },
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "0.75rem" }],
+        "3xs": ["0.5rem", { lineHeight: "0.625rem" }],
       },
       colors: {
         yellow: { DEFAULT: "#e6c229", foreground: "#0F0F0E" },
