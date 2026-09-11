@@ -17,15 +17,17 @@ describe('Footer Component', () => {
         assert.ok(screen.getByText(/Adelaide University Computer Science Club/));
     });
 
-    it('contains interactive modal toggle triggers for About, Disclaimer, and Privacy', () => {
+    it('contains interactive modal toggle triggers for About, Disclaimer, Privacy, and Terms & Conditions', () => {
         render(<Footer />);
 
         const aboutTrigger = screen.getByText('About');
         const disclaimerTrigger = screen.getByText('Disclaimer');
         const privacyTrigger = screen.getByText('Privacy');
+        const termsTrigger = screen.getByText('Terms & Conditions');
 
         assert.ok(aboutTrigger);
         assert.ok(disclaimerTrigger);
         assert.ok(privacyTrigger);
+        assert.ok(termsTrigger);
     });
 });
