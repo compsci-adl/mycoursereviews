@@ -81,8 +81,8 @@ export const MyReviewsClient = ({ reviews, comments, courseMap }: MyReviewsClien
     } : null;
 
     return (
-        <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet mx-[-1.5rem] sm:mx-[-2rem] mt-[-2rem] px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
-            <div className="max-w-screen-xl w-full flex flex-col gap-8 md:gap-12">
+        <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet -mx-6 sm:-mx-8 -mt-8 px-6 sm:px-8 py-8 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
+            <div className="max-w-7xl w-full flex flex-col gap-8 md:gap-12">
                 {actionError && (
                     <div className="bg-red-500/10 border-2 border-red-500 text-red-600 dark:text-red-400 p-3 text-xs font-mono font-bold flex justify-between items-center rounded-none">
                         <span>{actionError}</span>
@@ -126,12 +126,12 @@ export const MyReviewsClient = ({ reviews, comments, courseMap }: MyReviewsClien
                             className={clsx(
                                 "w-full font-mono text-xs uppercase font-black px-4 py-3.5 border-3 transition-all duration-200 rounded-none text-left flex items-center justify-between shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] cursor-pointer",
                                 activeTab === 'reviews'
-                                    ? "bg-red text-white border-foreground translate-x-[2px] translate-y-[2px] shadow-none"
+                                    ? "bg-red text-white border-foreground translate-x-0.5 translate-y-0.5 shadow-none"
                                     : "bg-background text-foreground border-foreground hover:bg-secondary hover:text-white"
                             )}
                         >
                             <span>My Reviews</span>
-                            <span className="bg-red text-white text-[10px] px-1.5 py-0.5 border border-foreground font-black font-mono leading-none">
+                            <span className="bg-red text-white text-2xs px-1.5 py-0.5 border border-foreground font-black font-mono leading-none">
                                 {reviews.length}
                             </span>
                         </button>
@@ -141,12 +141,12 @@ export const MyReviewsClient = ({ reviews, comments, courseMap }: MyReviewsClien
                             className={clsx(
                                 "w-full font-mono text-xs uppercase font-black px-4 py-3.5 border-3 transition-all duration-200 rounded-none text-left flex items-center justify-between shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] cursor-pointer",
                                 activeTab === 'comments'
-                                    ? "bg-blue text-white border-foreground translate-x-[2px] translate-y-[2px] shadow-none"
+                                    ? "bg-blue text-white border-foreground translate-x-0.5 translate-y-0.5 shadow-none"
                                     : "bg-background text-foreground border-foreground hover:bg-secondary hover:text-white"
                             )}
                         >
                             <span>My Comments</span>
-                            <span className="bg-blue text-white text-[10px] px-1.5 py-0.5 border border-foreground font-black font-mono leading-none">
+                            <span className="bg-blue text-white text-2xs px-1.5 py-0.5 border border-foreground font-black font-mono leading-none">
                                 {comments.length}
                             </span>
                         </button>

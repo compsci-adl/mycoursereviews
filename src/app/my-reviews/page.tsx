@@ -16,7 +16,7 @@ export default async function MyReviewsPage() {
     // 1. Secure Access Check - Prompt login if session is absent
     if (!session?.user?.id) {
         return (
-            <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet mx-[-1.5rem] sm:mx-[-2rem] mt-[-2rem] px-6 sm:px-8 py-16 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
+            <div className="flex flex-col gap-8 md:gap-12 bg-grid-sheet -mx-6 sm:-mx-8 -mt-8 px-6 sm:px-8 py-16 w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] min-h-screen items-center">
                 <div className="max-w-md w-full border-4 border-foreground rounded-none bg-background shadow-[8px_8px_0px_0px_#000] dark:shadow-[8px_8px_0px_0px_#fff] p-6 sm:p-8 font-mono flex flex-col gap-6 text-center">
                     <div className="flex flex-col gap-2 items-center">
                         <div className="w-12 h-12 bg-grey text-black border-2 border-foreground rounded-full flex items-center justify-center mb-2 shadow-[2px_2px_0px_0px_#000] select-none">
@@ -47,9 +47,9 @@ export default async function MyReviewsPage() {
                         
                         <Link
                             href={`/api/auth/signin?callbackUrl=${encodeURIComponent('/my-reviews')}`}
-                            className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-[1px] active:translate-y-[1px] transition-all h-9 px-4 flex items-center justify-center"
+                            className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-px active:translate-y-px transition-all h-9 px-4 flex items-center justify-center"
                         >
-                            Log In with Keycloak
+                            Log In with CS Club account
                         </Link>
                     </div>
                 </div>

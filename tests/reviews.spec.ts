@@ -31,7 +31,7 @@ test('unauthenticated clicking write review opens AuthRequired modal', async ({ 
 
     // Verify presence of interactive CTA options
     const cancelBtn = page.getByRole('button', { name: /Cancel/i }).first();
-    const loginBtn = page.getByRole('button', { name: /Log In with Keycloak/i }).first();
+    const loginBtn = page.getByRole('button', { name: /Log In with CS Club account/i }).first();
     await expect(cancelBtn).toBeVisible();
     await expect(loginBtn).toBeVisible();
 

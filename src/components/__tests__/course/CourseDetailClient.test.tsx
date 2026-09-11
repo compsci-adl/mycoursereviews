@@ -269,7 +269,7 @@ describe('CourseDetailClient Component', () => {
         assert.ok(screen.getByText(/No reviews yet/i));
     });
 
-    it('opens the AuthRequired warning modal when an unauthenticated user clicks Write Review', async () => {
+    it('opens the AuthRequired warning modal with review prompt when an unauthenticated user clicks Write Review', async () => {
         (useSession as any).mock.mockImplementation(() => ({ data: null, status: 'unauthenticated' }));
 
         render(
@@ -284,15 +284,83 @@ describe('CourseDetailClient Component', () => {
         const writeButton = screen.getByRole('button', { name: /Write Review/i });
         fireEvent.click(writeButton);
 
-        // Warning modal text should be visible
+        // Warning modal text should be visible with review-specific copy
         assert.ok(screen.getByText('Authentication Required'));
         assert.ok(screen.getByText(/You need to be logged into your/i));
+        assert.ok(screen.getByText(/to write a review/i));
+        assert.ok(screen.getByText(/Posting anonymously is fully supported/i));
 
         // Clicking the sign in option triggers NextAuth OIDC flow
-        const loginBtn = screen.getByRole('button', { name: /Log In with Keycloak/i });
+        const loginBtn = screen.getByRole('button', { name: /Log In with CS Club account/i });
         fireEvent.click(loginBtn);
         assert.strictEqual((signIn as any).mock.callCount(), 1);
         assert.strictEqual((signIn as any).mock.calls[0].arguments[0], 'keycloak');
+    });
+
+    it('opens the AuthRequired modal with community interactions message when unauthenticated user votes on Last Major Update', async () => {
+        (useSession as any).mock.mockImplementation(() => ({ data: null, status: 'unauthenticated' }));
+
+        render(
+            <CourseDetailClient
+                course={mockCourse}
+                reviews={mockReviews}
+                stats={mockStats}
+                updateVoteData={mockUpdateVoteData}
+            />
+        );
+
+        // Click Correct button in LastMajorUpdateSection
+        const correctBtn = screen.getByRole('button', { name: /Correct/i });
+        fireEvent.click(correctBtn);
+
+        // Auth modal should open with community interactions copy
+        assert.ok(screen.getByText('Authentication Required'));
+        assert.ok(screen.getByText(/participate in community interactions/i));
+        assert.ok(screen.getByText(/Community interactions require you to be logged in/i));
+    });
+
+    it('opens the AuthRequired modal with community interactions message when unauthenticated user disputes Last Major Update', async () => {
+        (useSession as any).mock.mockImplementation(() => ({ data: null, status: 'unauthenticated' }));
+
+        render(
+            <CourseDetailClient
+                course={mockCourse}
+                reviews={mockReviews}
+                stats={mockStats}
+                updateVoteData={mockUpdateVoteData}
+            />
+        );
+
+        // Click Outdated button in LastMajorUpdateSection
+        const outdatedBtn = screen.getByRole('button', { name: /Outdated/i });
+        fireEvent.click(outdatedBtn);
+
+        // Auth modal should open with community interactions copy
+        assert.ok(screen.getByText('Authentication Required'));
+        assert.ok(screen.getByText(/participate in community interactions/i));
+        assert.ok(screen.getByText(/Community interactions require you to be logged in/i));
+    });
+
+    it('opens the AuthRequired modal with community interactions message when unauthenticated user likes a review', async () => {
+        (useSession as any).mock.mockImplementation(() => ({ data: null, status: 'unauthenticated' }));
+
+        render(
+            <CourseDetailClient
+                course={mockCourse}
+                reviews={mockReviews}
+                stats={mockStats}
+                updateVoteData={mockUpdateVoteData}
+            />
+        );
+
+        // Click like button on review card
+        const likeBtn = screen.getByRole('button', { name: /Like/i });
+        fireEvent.click(likeBtn);
+
+        // Auth modal should open with community interactions copy
+        assert.ok(screen.getByText('Authentication Required'));
+        assert.ok(screen.getByText(/participate in community interactions/i));
+        assert.ok(screen.getByText(/Community interactions require you to be logged in/i));
     });
 
     it('opens the review submission modal directly if user is logged in', () => {

@@ -51,7 +51,7 @@ services:
       - ../courses-api/src:/data/courses-api:ro
     depends_on:
       - mycoursereviews-db
-    command: sh -c "CI=true pnpm install && pnpm run db:push && pnpm run dev"
+    command: sh -c "CI=true pnpm install && pnpm run db:push && if [ \"$$SEED_DB\" = \"true\" ]; then pnpm run db:seed; fi && pnpm run dev"
     networks:
       - csclub
 

@@ -11,6 +11,7 @@
     "lint:fix": "eslint --fix ./src",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
+    "db:seed": "tsx src/db/seed.ts",
     "db:studio": "drizzle-kit studio",
     "test:unit": "node --experimental-test-module-mocks --import tsx --import ./tests/bootstrap.ts --test \"src/**/*.test.ts\" \"src/**/*.test.tsx\"",
     "test:e2e": "playwright test"

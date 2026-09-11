@@ -69,7 +69,7 @@ export const AdminCommentsTable = ({ comments, onDeleteTrigger }: AdminCommentsT
                         {filteredComments.map((comment) => (
                             <TableRow key={comment.id} className="border-b border-dashed border-foreground/35 hover:bg-foreground/5 transition-colors">
                                 <TableCell className="font-extrabold text-foreground text-xs">
-                                    <span className="font-mixtape text-black bg-yellow border border-foreground px-1.5 py-0.5 w-fit shadow-[1px_1px_0px_0px_#000] rotate-[-1deg] text-[10px] font-bold block select-none">
+                                    <span className="font-mixtape text-black bg-yellow border border-foreground px-1.5 py-0.5 w-fit shadow-[1px_1px_0px_0px_#000] -rotate-1 text-2xs font-bold block select-none">
                                         {comment.courseCode}
                                     </span>
                                 </TableCell>

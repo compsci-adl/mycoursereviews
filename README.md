@@ -26,6 +26,15 @@ pnpm install
 pnpm run db:push
 ```
 
+3b. (Optional) Pre-seed the database with example reviews, student accounts, comments, and votes.
+
+```bash
+pnpm run db:seed
+
+# To clean existing seed data and reseed fresh:
+pnpm run db:seed --reset
+```
+
 4. Run the development server.
 
 ```bash
@@ -33,6 +42,14 @@ pnpm run dev
 ```
 
 5. Open [http://localhost:3200](http://localhost:3200) with your browser to see the result.
+
+### Docker Dev Seeding
+To preseed the database automatically when using `docker compose`:
+Set `SEED_DB=true` in `.env.dev.docker` or run:
+
+```bash
+SEED_DB=true docker compose -f docker-compose-dev.yml up
+```
 
 ## Contributing
 

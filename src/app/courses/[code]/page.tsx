@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/db';
 import { comments, likes, reviews, users } from '@/db/schema';
-import { getCourseByCode } from '@/lib/courses-db';
+import { enrichCourseFromApi, getCourseByCode } from '@/lib/courses-db';
 import { CourseDetailClient } from '@/components/course/CourseDetailClient';
 import { getCourseUpdateVoteData } from '@/app/actions/courseUpdates';
 
@@ -22,8 +22,11 @@ export default async function CourseDetailPage({ params }: PageProps) {
     const resolvedParams = await params;
     const decodedCode = decodeURIComponent(resolvedParams.code);
 
-    // 1. Fetch course description outline from direct SQLite database
+    // 1. Fetch course description outline from direct SQLite database / fallback
     let courseData = getCourseByCode(decodedCode);
+    if (courseData) {
+        courseData = await enrichCourseFromApi(courseData);
+    }
 
     // 2. Determine target course code for reviews and voting lookup
     // If the API outline exists, we use its normalized code (e.g. "COMP SCI 1102").

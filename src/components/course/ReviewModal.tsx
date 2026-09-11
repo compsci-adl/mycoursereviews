@@ -159,7 +159,7 @@ export const ReviewModal = ({ isOpen, onOpenChange, courseCode }: ReviewModalPro
                 {(onClose) => (
                     <>
                         <ModalHeader className="flex flex-col gap-1 border-b-3 border-foreground px-6 py-4">
-                            <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-2 py-0.5 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-2deg] inline-block mb-1">{courseCode}</span>
+                            <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-2 py-0.5 w-fit shadow-[2px_2px_0px_0px_#000] -rotate-2 inline-block mb-1">{courseCode}</span>
                             <h2 className="font-mixtape uppercase text-xl font-extrabold tracking-tight">Review this Course</h2>
                             <p className="font-mono text-xs text-foreground/80 font-bold rotate-[0.5deg]">
                                 Help other Adelaide University students make informed choices by sharing your feedback.
@@ -319,7 +319,7 @@ export const ReviewModal = ({ isOpen, onOpenChange, courseCode }: ReviewModalPro
                                 >
                                     <div className="flex flex-col gap-0.5 ml-1">
                                         <span className="font-black uppercase text-2xs">Post Anonymously</span>
-                                        <span className="text-[9px] text-foreground/60 leading-none">
+                                        <span className="text-3xs text-foreground/60 leading-none">
                                             Your name will be hidden from public view, but retained in the admin logs for safety checks.
                                         </span>
                                     </div>
@@ -371,7 +371,7 @@ export const ReviewModal = ({ isOpen, onOpenChange, courseCode }: ReviewModalPro
                                 className={clsx(
                                     "font-mono text-xs uppercase font-black border-2 border-foreground transition-all",
                                     agreeToTerms 
-                                        ? "bg-yellow text-black shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#000] dark:active:shadow-[2px_2px_0px_0px_#fff]" 
+                                        ? "bg-yellow text-black shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-px active:translate-y-px active:shadow-[2px_2px_0px_0px_#000] dark:active:shadow-[2px_2px_0px_0px_#fff]" 
                                         : "bg-grey/30 text-foreground/40 cursor-not-allowed opacity-50 shadow-none border-dashed"
                                 )}
                             >

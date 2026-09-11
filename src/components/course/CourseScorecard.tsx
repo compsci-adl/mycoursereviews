@@ -17,9 +17,9 @@ export const CourseScorecard = ({ stats }: CourseScorecardProps) => {
     return (
         <div className="border-t-3 border-foreground pt-6 flex flex-col md:flex-row gap-6 items-center md:items-stretch font-mono w-full">
             {/* Overall Rating */}
-            <div className="flex flex-col items-center justify-center bg-foreground/5 border-2 border-foreground p-5 rounded-none min-w-[180px] text-center">
-                <h3 className="font-mixtape text-[10px] uppercase font-extrabold text-foreground/50 tracking-wider">Overall Score</h3>
-                <span className="text-4xl font-mixtape font-black uppercase text-foreground bg-yellow border-2 border-foreground px-4 py-1.5 shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] rotate-[-2deg] mt-3.5 select-none hover:rotate-[2deg] hover:scale-105 transition-all duration-200 cursor-pointer">
+            <div className="flex flex-col items-center justify-center bg-foreground/5 border-2 border-foreground p-5 rounded-none min-w-45 text-center">
+                <h3 className="font-mixtape text-2xs uppercase font-extrabold text-foreground/50 tracking-wider">Overall Score</h3>
+                <span className="text-4xl font-mixtape font-black uppercase text-foreground bg-yellow border-2 border-foreground px-4 py-1.5 shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] -rotate-2 mt-3.5 select-none hover:rotate-2 hover:scale-105 transition-all duration-200 cursor-pointer">
                     {stats.totalReviews > 0 ? stats.avgOverall.toFixed(1) : 'N/A'}
                 </span>
                 <div className="flex items-center gap-0.5 text-yellow-500 text-sm mt-3.5">
@@ -36,7 +36,7 @@ export const CourseScorecard = ({ stats }: CourseScorecardProps) => {
                         />
                     ))}
                 </div>
-                <span className="text-[10px] text-foreground/50 mt-2 font-black uppercase leading-none">
+                <span className="text-2xs text-foreground/50 mt-2 font-black uppercase leading-none">
                     Based on {stats.totalReviews} {stats.totalReviews === 1 ? 'review' : 'reviews'}
                 </span>
             </div>

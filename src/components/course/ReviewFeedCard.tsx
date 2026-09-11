@@ -45,6 +45,7 @@ interface ReviewFeedCardProps {
     onCommentSubmit: (reviewId: string, content: string, parentId?: string) => Promise<void>;
     onCommentEdit: (commentId: string, content: string) => Promise<void>;
     onCommentDelete: (commentId: string) => Promise<void>;
+    onAuthOpen?: () => void;
 }
 
 export const ReviewFeedCard = ({
@@ -57,6 +58,7 @@ export const ReviewFeedCard = ({
     onCommentSubmit,
     onCommentEdit,
     onCommentDelete,
+    onAuthOpen,
 }: ReviewFeedCardProps) => {
     const [likeTransition, startLikeTransition] = useTransition();
     const [commentTransition, startCommentTransition] = useTransition();
@@ -74,6 +76,10 @@ export const ReviewFeedCard = ({
 
     const handleLikeClick = () => {
         if (!session) {
+            if (onAuthOpen) {
+                onAuthOpen();
+                return;
+            }
             setWarningMessage('You must be logged in to like reviews.');
             setIsWarningOpen(true);
             return;
@@ -102,6 +108,10 @@ export const ReviewFeedCard = ({
 
     const handleRootCommentSubmit = () => {
         if (!session) {
+            if (onAuthOpen) {
+                onAuthOpen();
+                return;
+            }
             setWarningMessage('Please login to write comments.');
             setIsWarningOpen(true);
             return;
@@ -136,7 +146,7 @@ export const ReviewFeedCard = ({
                         <div className="flex flex-col gap-1.5 border-b-2 border-foreground pb-2">
                             <div className="flex justify-between items-start gap-2">
                                 <h3 className="font-mixtape uppercase tracking-tight text-base font-extrabold text-foreground leading-tight">{review.title}</h3>
-                                <div className="flex items-center gap-1 bg-yellow text-black border border-foreground px-1.5 py-0.5 rounded-none font-mono font-black text-[10px] shrink-0">
+                                <div className="flex items-center gap-1 bg-yellow text-black border border-foreground px-1.5 py-0.5 rounded-none font-mono font-black text-2xs shrink-0">
                                     <MdStar
                                         className="w-3 h-3"
                                         fill="#FAA307"
@@ -147,7 +157,7 @@ export const ReviewFeedCard = ({
                                 </div>
                             </div>
                             
-                            <div className="flex flex-wrap items-center gap-1.5 text-[9px] font-mono uppercase font-black text-foreground/60 leading-none">
+                            <div className="flex flex-wrap items-center gap-1.5 text-3xs font-mono uppercase font-black text-foreground/60 leading-none">
                                 <span className="text-red">{review.isAnonymous ? 'Anonymous' : review.reviewerName}</span>
                                 <span className="px-0.5 text-foreground/30">|</span>
                                 <span>{formatLocalDate(review.createdAt)}</span>
@@ -165,7 +175,7 @@ export const ReviewFeedCard = ({
                                         <span className="px-0.5 text-foreground/30">|</span>
                                         <button
                                             onClick={() => onReviewEdit(review)}
-                                            className="text-yellow hover:scale-105 font-extrabold cursor-pointer uppercase text-[9px] flex items-center gap-1 transition-all"
+                                            className="text-yellow hover:scale-105 font-extrabold cursor-pointer uppercase text-3xs flex items-center gap-1 transition-all"
                                             title="Edit Review"
                                             aria-label="Edit Review"
                                         >
@@ -175,7 +185,7 @@ export const ReviewFeedCard = ({
                                         <span className="px-0.5 text-foreground/30">|</span>
                                         <button
                                             onClick={handleReviewDeleteClick}
-                                            className="text-red hover:scale-105 font-extrabold cursor-pointer uppercase text-[9px] flex items-center gap-1 transition-all"
+                                            className="text-red hover:scale-105 font-extrabold cursor-pointer uppercase text-3xs flex items-center gap-1 transition-all"
                                             title="Delete Review"
                                             aria-label="Delete Review"
                                         >
@@ -197,20 +207,18 @@ export const ReviewFeedCard = ({
                             </p>
                             
                             {shouldTruncate && (
-                                <Button
-                                    size="sm"
-                                    variant="light"
-                                    color="primary"
-                                    onPress={() => setIsExpanded(!isExpanded)}
-                                    className="font-mono text-[9px] uppercase font-extrabold h-5 mt-1 p-0 hover:underline min-w-0"
+                                <button
+                                    type="button"
+                                    onClick={() => setIsExpanded(!isExpanded)}
+                                    className="font-mono text-2xs uppercase font-black text-foreground/85 hover:text-foreground dark:text-foreground/90 dark:hover:text-white underline underline-offset-4 decoration-2 decoration-foreground/40 hover:decoration-foreground cursor-pointer transition-colors mt-2 inline-flex items-center gap-1 select-none"
                                 >
                                     {isExpanded ? 'See Less' : 'See More'}
-                                </Button>
+                                </button>
                             )}
                         </div>
 
                         {/* Sub-scores Metrics */}
-                        <div className="flex flex-wrap gap-2.5 bg-background border border-foreground p-2 rounded-none text-[9px] font-mono font-black text-foreground/75 w-fit">
+                        <div className="flex flex-wrap gap-2.5 bg-background border border-foreground p-2 rounded-none text-3xs font-mono font-black text-foreground/75 w-fit">
                             <span>DIFFICULTY: <span className={review.difficultyScore > 3.5 ? 'text-red' : 'text-yellow'}>{review.difficultyScore}/5</span></span>
                             <span>USEFULNESS: <span className="text-blue">{review.usefulnessScore}/5</span></span>
                             <span>ENJOYMENT: <span className="text-yellow">{review.enjoymentScore}/5</span></span>
@@ -227,7 +235,7 @@ export const ReviewFeedCard = ({
                                     onPress={handleLikeClick}
                                     startContent={review.likedByCurrentUser ? <FaHeart className="text-black" /> : <FaRegHeart />}
                                     className={clsx(
-                                        "font-mono text-[9px] h-6 px-2 uppercase font-black border border-foreground shadow-[1px_1px_0px_0px_#000] transition-all cursor-pointer",
+                                        "font-mono text-3xs h-6 px-2 uppercase font-black border border-foreground shadow-[1px_1px_0px_0px_#000] transition-all cursor-pointer",
                                         review.likedByCurrentUser ? "bg-red text-white" : "bg-background text-foreground"
                                     )}
                                 >
@@ -240,7 +248,7 @@ export const ReviewFeedCard = ({
                                     variant="flat"
                                     startContent={<FaComments />}
                                     onPress={() => setShowCommentsRoot(!showCommentsRoot)}
-                                    className="font-mono text-[9px] h-6 px-2 uppercase font-black bg-background border border-foreground shadow-[1px_1px_0px_0px_#000] text-foreground cursor-pointer"
+                                    className="font-mono text-3xs h-6 px-2 uppercase font-black bg-background border border-foreground shadow-[1px_1px_0px_0px_#000] text-foreground cursor-pointer"
                                 >
                                     Comments ({review.comments.length})
                                 </Button>
@@ -248,7 +256,7 @@ export const ReviewFeedCard = ({
 
                             {/* Comments Feed Panel */}
                             <div className="bg-foreground/[0.03] p-3 rounded-none border border-dashed border-foreground/35 flex flex-col gap-2.5">
-                                <h4 className="font-mixtape text-[9px] uppercase font-extrabold text-foreground/50 tracking-wider">Comments Feed</h4>
+                                <h4 className="font-mixtape text-3xs uppercase font-extrabold text-foreground/50 tracking-wider">Comments Feed</h4>
 
                                 {/* Thread Root Input */}
                                 {session && showCommentsRoot && (
@@ -272,7 +280,7 @@ export const ReviewFeedCard = ({
                                                 radius="none"
                                                 variant="flat"
                                                 onPress={() => setShowCommentsRoot(false)}
-                                                className="font-mono text-[9px] h-5 border border-foreground py-0.5 px-1.5 cursor-pointer"
+                                                className="font-mono text-3xs h-5 border border-foreground py-0.5 px-1.5 cursor-pointer"
                                             >
                                                 Cancel
                                             </Button>
@@ -281,7 +289,7 @@ export const ReviewFeedCard = ({
                                                 radius="none"
                                                 isLoading={commentTransition}
                                                 onPress={handleRootCommentSubmit}
-                                                className="font-mono text-[9px] h-5 uppercase font-black bg-yellow text-black border border-foreground shadow-[1px_1px_0px_0px_#000] py-0.5 px-1.5 cursor-pointer"
+                                                className="font-mono text-3xs h-5 uppercase font-black bg-yellow text-black border border-foreground shadow-[1px_1px_0px_0px_#000] py-0.5 px-1.5 cursor-pointer"
                                             >
                                                 Add a Comment
                                             </Button>
@@ -290,7 +298,7 @@ export const ReviewFeedCard = ({
                                 )}
 
                                 {review.comments.length === 0 ? (
-                                    <p className="font-mono text-[9px] text-foreground/50 font-semibold italic py-1">No comments yet.</p>
+                                    <p className="font-mono text-3xs text-foreground/50 font-semibold italic py-1">No comments yet.</p>
                                 ) : (
                                     <CommentThread
                                         reviewId={review.id}

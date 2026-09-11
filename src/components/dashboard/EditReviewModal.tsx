@@ -165,7 +165,7 @@ export const EditReviewModal = ({ isOpen, onOpenChange, review, onSave }: EditRe
                     <>
                         <ModalHeader className="flex flex-col gap-1 border-b-3 border-foreground px-6 py-4">
                             {review?.courseCode && (
-                                <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-2 py-0.5 w-fit shadow-[2px_2px_0px_0px_#000] rotate-[-2deg] inline-block mb-1">
+                                <span className="font-mixtape text-xs uppercase font-extrabold text-black bg-yellow border-2 border-foreground px-2 py-0.5 w-fit shadow-[2px_2px_0px_0px_#000] -rotate-2 inline-block mb-1">
                                     {review.courseCode}
                                 </span>
                             )}
@@ -330,7 +330,7 @@ export const EditReviewModal = ({ isOpen, onOpenChange, review, onSave }: EditRe
                                 >
                                     <div className="flex flex-col gap-0.5 ml-1 font-mono">
                                         <span className="font-black uppercase text-2xs">Post anonymously (Hide my real name)</span>
-                                        <span className="text-[9px] text-foreground/60 leading-none">
+                                        <span className="text-3xs text-foreground/60 leading-none">
                                             Your name will be hidden from public view, but retained in the admin logs for safety checks.
                                         </span>
                                     </div>
@@ -355,7 +355,7 @@ export const EditReviewModal = ({ isOpen, onOpenChange, review, onSave }: EditRe
                             <Button
                                 isLoading={isSaving}
                                 onPress={() => handleSubmit(onClose)}
-                                className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-[1px] active:translate-y-[1px] transition-all h-10 px-6"
+                                className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-px active:translate-y-px transition-all h-10 px-6"
                             >
                                 Save Changes
                             </Button>
