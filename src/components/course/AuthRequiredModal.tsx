@@ -15,9 +15,20 @@ import { FaLock, FaUserShield } from 'react-icons/fa';
 interface AuthRequiredModalProps {
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
+    action?: 'review' | 'community' | string;
+    message?: React.ReactNode;
+    subNote?: React.ReactNode;
 }
 
-export const AuthRequiredModal = ({ isOpen, onOpenChange }: AuthRequiredModalProps) => {
+export const AuthRequiredModal = ({
+    isOpen,
+    onOpenChange,
+    action = 'review',
+    message,
+    subNote,
+}: AuthRequiredModalProps) => {
+    const isCommunity = action === 'community';
+
     return (
         <Modal
             isOpen={isOpen}
@@ -42,11 +53,23 @@ export const AuthRequiredModal = ({ isOpen, onOpenChange }: AuthRequiredModalPro
                                 By students, for students — Adelaide University's course guide.
                             </p>
                             <p className="text-xs text-foreground/80 leading-relaxed bg-background p-4 rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] text-left">
-                                You need to be logged into your <span className="font-extrabold text-red">CS Club account</span> to write a review. This helps us ensure reviews are written by genuine students and follow our standards.
+                                {message || (isCommunity ? (
+                                    <>
+                                        You need to be logged into your <span className="font-extrabold text-red">CS Club account</span> to participate in community interactions. This helps us ensure course update consensus and community feedback are by genuine students and follow our standards.
+                                    </>
+                                ) : (
+                                    <>
+                                        You need to be logged into your <span className="font-extrabold text-red">CS Club account</span> to write a review. This helps us ensure reviews are written by genuine students and follow our standards.
+                                    </>
+                                ))}
                             </p>
                             <div className="flex items-center justify-center gap-2 text-2xs text-foreground/75 font-black uppercase bg-yellow/10 p-2.5 rounded-none border-2 border-dashed border-foreground/30">
                                 <FaUserShield className="text-yellow text-xs shrink-0" />
-                                <span>Posting anonymously is fully supported if checked on submission.</span>
+                                {subNote || (isCommunity ? (
+                                    <span>Community interactions require you to be logged in.</span>
+                                ) : (
+                                    <span>Posting anonymously is fully supported if checked on submission.</span>
+                                ))}
                             </div>
                         </ModalBody>
                         <ModalFooter className="flex justify-end gap-3 pt-4 px-6 pb-2">

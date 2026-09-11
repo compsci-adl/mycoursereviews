@@ -45,6 +45,7 @@ interface ReviewFeedCardProps {
     onCommentSubmit: (reviewId: string, content: string, parentId?: string) => Promise<void>;
     onCommentEdit: (commentId: string, content: string) => Promise<void>;
     onCommentDelete: (commentId: string) => Promise<void>;
+    onAuthOpen?: () => void;
 }
 
 export const ReviewFeedCard = ({
@@ -57,6 +58,7 @@ export const ReviewFeedCard = ({
     onCommentSubmit,
     onCommentEdit,
     onCommentDelete,
+    onAuthOpen,
 }: ReviewFeedCardProps) => {
     const [likeTransition, startLikeTransition] = useTransition();
     const [commentTransition, startCommentTransition] = useTransition();
@@ -74,6 +76,10 @@ export const ReviewFeedCard = ({
 
     const handleLikeClick = () => {
         if (!session) {
+            if (onAuthOpen) {
+                onAuthOpen();
+                return;
+            }
             setWarningMessage('You must be logged in to like reviews.');
             setIsWarningOpen(true);
             return;
@@ -102,6 +108,10 @@ export const ReviewFeedCard = ({
 
     const handleRootCommentSubmit = () => {
         if (!session) {
+            if (onAuthOpen) {
+                onAuthOpen();
+                return;
+            }
             setWarningMessage('Please login to write comments.');
             setIsWarningOpen(true);
             return;

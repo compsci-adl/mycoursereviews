@@ -35,6 +35,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
     const { data: session } = useSession();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { isOpen: isAuthOpen, onOpen: onAuthOpen, onOpenChange: onAuthOpenChange } = useDisclosure();
+    const [authAction, setAuthAction] = useState<'review' | 'community'>('review');
     const [sortBy, setSortBy] = useState('recent');
     const [mounted, setMounted] = useState(false);
 
@@ -53,7 +54,11 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
 
     // Last Major Update vote handler
     const handleVote = async (suggestedTerm: string) => {
-        if (!session) { onAuthOpen(); return; }
+        if (!session) {
+            setAuthAction('community');
+            onAuthOpen();
+            return;
+        }
         setVoteLoading(true);
         const prev = voteData;
         const isToggleOff = voteData.currentUserVote === suggestedTerm;
@@ -280,7 +285,10 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                             voteData={voteData}
                             onVote={handleVote}
                             voteLoading={voteLoading}
-                            onAuthOpen={onAuthOpen}
+                            onAuthOpen={() => {
+                                setAuthAction('community');
+                                onAuthOpen();
+                            }}
                             session={session}
                             voteError={voteError}
                             onClearVoteError={() => setVoteError(null)}
@@ -343,7 +351,14 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                                 size="sm"
                                 radius="none"
                                 className="h-10 min-h-10 font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:scale-105 active:scale-95 transition-all duration-200 animate-pulse-custom cursor-pointer"
-                                onPress={session ? onOpen : onAuthOpen}
+                                onPress={() => {
+                                    if (session) {
+                                        onOpen();
+                                    } else {
+                                        setAuthAction('review');
+                                        onAuthOpen();
+                                    }
+                                }}
                             >
                                 Write Review
                             </Button>
@@ -371,6 +386,10 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
                                     onCommentSubmit={handleCommentSubmit}
                                     onCommentEdit={handleCommentEdit}
                                     onCommentDelete={handleCommentDelete}
+                                    onAuthOpen={() => {
+                                        setAuthAction('community');
+                                        onAuthOpen();
+                                    }}
                                 />
                             ))
                         )}
@@ -392,6 +411,7 @@ export const CourseDetailClient = ({ course, reviews, stats, updateVoteData, def
             <AuthRequiredModal
                 isOpen={isAuthOpen}
                 onOpenChange={onAuthOpenChange}
+                action={authAction}
             />
 
             {/* Custom Shared Edit Review Modal */}
