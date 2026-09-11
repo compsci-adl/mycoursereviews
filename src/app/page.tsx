@@ -240,7 +240,7 @@ export default function WelcomePage() {
                         <div className="p-3 bg-blue text-white w-fit rounded-none border-2 border-foreground shadow-[2px_2px_0px_0px_#000] -rotate-2">
                             <FaComments className="text-xl" />
                         </div>
-                        <h2 className="text-xl font-mixtape uppercase font-extrabold tracking-tight">Threaded Debates</h2>
+                        <h2 className="text-xl font-mixtape uppercase font-extrabold tracking-tight">Threaded Discussions</h2>
                         <p className="text-xs font-mono text-foreground/80 leading-relaxed">
                             Logged in students can leave threaded comments and reply to reviews to ask questions or discuss assignments.
                         </p>

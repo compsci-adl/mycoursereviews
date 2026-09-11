@@ -289,7 +289,7 @@ describe('CourseDetailClient Component', () => {
         assert.ok(screen.getByText(/You need to be logged into your/i));
 
         // Clicking the sign in option triggers NextAuth OIDC flow
-        const loginBtn = screen.getByRole('button', { name: /Log In with Keycloak/i });
+        const loginBtn = screen.getByRole('button', { name: /Log In with CS Club account/i });
         fireEvent.click(loginBtn);
         assert.strictEqual((signIn as any).mock.callCount(), 1);
         assert.strictEqual((signIn as any).mock.calls[0].arguments[0], 'keycloak');

@@ -42,7 +42,7 @@ export const AuthRequiredModal = ({ isOpen, onOpenChange }: AuthRequiredModalPro
                                 By students, for students — Adelaide University's course guide.
                             </p>
                             <p className="text-xs text-foreground/80 leading-relaxed bg-background p-4 rounded-none border-2 border-foreground shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] text-left">
-                                You need to be logged into your <span className="font-extrabold text-red">CS Club account</span> to write a review. This helps us ensure reviews are written by genuine students and maintain high academic standards.
+                                You need to be logged into your <span className="font-extrabold text-red">CS Club account</span> to write a review. This helps us ensure reviews are written by genuine students and follow our standards.
                             </p>
                             <div className="flex items-center justify-center gap-2 text-2xs text-foreground/75 font-black uppercase bg-yellow/10 p-2.5 rounded-none border-2 border-dashed border-foreground/30">
                                 <FaUserShield className="text-yellow text-xs shrink-0" />
@@ -64,7 +64,7 @@ export const AuthRequiredModal = ({ isOpen, onOpenChange }: AuthRequiredModalPro
                                 }}
                                 className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-px active:translate-y-px transition-all h-9 px-4 cursor-pointer"
                             >
-                                Log In with Keycloak
+                                Log In with CS Club account
                             </Button>
                         </ModalFooter>
                     </>

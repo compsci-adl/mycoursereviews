@@ -49,7 +49,7 @@ export default async function MyReviewsPage() {
                             href={`/api/auth/signin?callbackUrl=${encodeURIComponent('/my-reviews')}`}
                             className="font-mono text-xs uppercase font-black bg-yellow text-black border-2 border-foreground rounded-none shadow-[3px_3px_0px_0px_#000] dark:shadow-[3px_3px_0px_0px_#fff] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0px_0px_#000] dark:hover:shadow-[4px_4px_0px_0px_#fff] active:translate-x-px active:translate-y-px transition-all h-9 px-4 flex items-center justify-center"
                         >
-                            Log In with Keycloak
+                            Log In with CS Club account
                         </Link>
                     </div>
                 </div>
