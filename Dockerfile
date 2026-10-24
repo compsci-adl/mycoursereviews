@@ -2,7 +2,7 @@
 # Stage 1: Dependencies Installation Stage
 # ============================================
 
-ARG NODE_VERSION=26-trixie-slim@sha256:715e55e4b84e4bb0ff48e49b398a848f08e55daed8eb6a0ea1839ae53bc57583
+ARG NODE_VERSION=26-trixie-slim@sha256:36793bcbb160a6a16cede1e62b93f84e26b78a972a8a4c0b879c1c12f22761ec
 
 FROM node:${NODE_VERSION} AS dependencies
 
