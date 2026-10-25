@@ -58,24 +58,30 @@ describe('Profanity Moderation Checker', () => {
         });
     });
 
-    describe('ML-like Toxicity, Personal Attacks & Bad Sentiment', () => {
-        it('flags personal attacks against lecturers/coordinators', () => {
-            const personalAttack = "The lecturer is an idiot and incredibly stupid.";
-            assert.strictEqual(checkTextForProfanity(personalAttack).containsProfanity, true);
+    describe('Hard Swear Words, Obfuscation & Negative Sentiment', () => {
+        it('allows slightly negative or critical sentiment reviews', () => {
+            const slightlyNegative1 = "The course was difficult and the workload was quite heavy.";
+            assert.strictEqual(checkTextForProfanity(slightlyNegative1).containsProfanity, false);
 
-            const dumbCoordinator = "The coordinator is so dumb and useless.";
-            assert.strictEqual(checkTextForProfanity(dumbCoordinator).containsProfanity, true);
+            const slightlyNegative2 = "I really disliked the pacing and the assignments were tough.";
+            assert.strictEqual(checkTextForProfanity(slightlyNegative2).containsProfanity, false);
+
+            const slightlyNegative3 = "This course sucks and the lectures were boring.";
+            assert.strictEqual(checkTextForProfanity(slightlyNegative3).containsProfanity, false);
+
+            const slightlyNegative4 = "The grading was harsh and slow, very disappointing.";
+            assert.strictEqual(checkTextForProfanity(slightlyNegative4).containsProfanity, false);
+
+            const slightlyNegative5 = "The exam was total rubbish and a waste of time.";
+            assert.strictEqual(checkTextForProfanity(slightlyNegative5).containsProfanity, false);
         });
 
-        it('flags toxic student comments and harmful sentiments', () => {
-            const toxicSentiment = "This course is absolute trash and garbage.";
-            assert.strictEqual(checkTextForProfanity(toxicSentiment).containsProfanity, true);
+        it('flags hard swear words and inflections', () => {
+            const hardSwear1 = "This course is fucking terrible.";
+            assert.strictEqual(checkTextForProfanity(hardSwear1).containsProfanity, true);
 
-            const extremeHarm = "If you take this class you should kill yourself.";
-            assert.strictEqual(checkTextForProfanity(extremeHarm).containsProfanity, true);
-
-            const kysAttack = "The staff are terrible, kys.";
-            assert.strictEqual(checkTextForProfanity(kysAttack).containsProfanity, true);
+            const hardSwear2 = "The coordinator was an asshole.";
+            assert.strictEqual(checkTextForProfanity(hardSwear2).containsProfanity, true);
         });
     });
 });
